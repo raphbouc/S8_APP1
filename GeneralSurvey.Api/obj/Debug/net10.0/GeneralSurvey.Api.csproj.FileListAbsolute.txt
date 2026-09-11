@@ -1,3 +1,12 @@
+/Users/raphaelbouchard/Uni/S8/APP1/Prob/GeneralSurvey/GeneralSurvey.Api/obj/Debug/net10.0/GeneralSurvey.Api.csproj.AssemblyReference.cache
+/Users/raphaelbouchard/Uni/S8/APP1/Prob/GeneralSurvey/GeneralSurvey.Api/obj/Debug/net10.0/rpswa.dswa.cache.json
+/Users/raphaelbouchard/Uni/S8/APP1/Prob/GeneralSurvey/GeneralSurvey.Api/obj/Debug/net10.0/GeneralSurvey.Api.GeneratedMSBuildEditorConfig.editorconfig
+/Users/raphaelbouchard/Uni/S8/APP1/Prob/GeneralSurvey/GeneralSurvey.Api/obj/Debug/net10.0/GeneralSurvey.Api.AssemblyInfoInputs.cache
+/Users/raphaelbouchard/Uni/S8/APP1/Prob/GeneralSurvey/GeneralSurvey.Api/obj/Debug/net10.0/GeneralSurvey.Api.AssemblyInfo.cs
+/Users/raphaelbouchard/Uni/S8/APP1/Prob/GeneralSurvey/GeneralSurvey.Api/obj/Debug/net10.0/GeneralSurvey.Api.csproj.CoreCompileInputs.cache
+/Users/raphaelbouchard/Uni/S8/APP1/Prob/GeneralSurvey/GeneralSurvey.Api/obj/Debug/net10.0/GeneralSurvey.Api.MvcApplicationPartsAssemblyInfo.cs
+/Users/raphaelbouchard/Uni/S8/APP1/Prob/GeneralSurvey/GeneralSurvey.Api/obj/Debug/net10.0/GeneralSurvey.Api.MvcApplicationPartsAssemblyInfo.cache
+/Users/raphaelbouchard/Uni/S8/APP1/Prob/GeneralSurvey/GeneralSurvey.Api/obj/Debug/net10.0/GeneralSurvey.Api.sourcelink.json
 /Users/raphaelbouchard/Uni/S8/APP1/Prob/GeneralSurvey/GeneralSurvey.Api/bin/Debug/net10.0/appsettings.Development.json
 /Users/raphaelbouchard/Uni/S8/APP1/Prob/GeneralSurvey/GeneralSurvey.Api/bin/Debug/net10.0/appsettings.json
 /Users/raphaelbouchard/Uni/S8/APP1/Prob/GeneralSurvey/GeneralSurvey.Api/bin/Debug/net10.0/GeneralSurvey.Api.staticwebassets.endpoints.json
@@ -8,14 +17,6 @@
 /Users/raphaelbouchard/Uni/S8/APP1/Prob/GeneralSurvey/GeneralSurvey.Api/bin/Debug/net10.0/GeneralSurvey.Api.pdb
 /Users/raphaelbouchard/Uni/S8/APP1/Prob/GeneralSurvey/GeneralSurvey.Api/bin/Debug/net10.0/Microsoft.AspNetCore.OpenApi.dll
 /Users/raphaelbouchard/Uni/S8/APP1/Prob/GeneralSurvey/GeneralSurvey.Api/bin/Debug/net10.0/Microsoft.OpenApi.dll
-/Users/raphaelbouchard/Uni/S8/APP1/Prob/GeneralSurvey/GeneralSurvey.Api/obj/Debug/net10.0/GeneralSurvey.Api.csproj.AssemblyReference.cache
-/Users/raphaelbouchard/Uni/S8/APP1/Prob/GeneralSurvey/GeneralSurvey.Api/obj/Debug/net10.0/rpswa.dswa.cache.json
-/Users/raphaelbouchard/Uni/S8/APP1/Prob/GeneralSurvey/GeneralSurvey.Api/obj/Debug/net10.0/GeneralSurvey.Api.GeneratedMSBuildEditorConfig.editorconfig
-/Users/raphaelbouchard/Uni/S8/APP1/Prob/GeneralSurvey/GeneralSurvey.Api/obj/Debug/net10.0/GeneralSurvey.Api.AssemblyInfoInputs.cache
-/Users/raphaelbouchard/Uni/S8/APP1/Prob/GeneralSurvey/GeneralSurvey.Api/obj/Debug/net10.0/GeneralSurvey.Api.AssemblyInfo.cs
-/Users/raphaelbouchard/Uni/S8/APP1/Prob/GeneralSurvey/GeneralSurvey.Api/obj/Debug/net10.0/GeneralSurvey.Api.csproj.CoreCompileInputs.cache
-/Users/raphaelbouchard/Uni/S8/APP1/Prob/GeneralSurvey/GeneralSurvey.Api/obj/Debug/net10.0/GeneralSurvey.Api.MvcApplicationPartsAssemblyInfo.cs
-/Users/raphaelbouchard/Uni/S8/APP1/Prob/GeneralSurvey/GeneralSurvey.Api/obj/Debug/net10.0/GeneralSurvey.Api.MvcApplicationPartsAssemblyInfo.cache
 /Users/raphaelbouchard/Uni/S8/APP1/Prob/GeneralSurvey/GeneralSurvey.Api/obj/Debug/net10.0/rjimswa.dswa.cache.json
 /Users/raphaelbouchard/Uni/S8/APP1/Prob/GeneralSurvey/GeneralSurvey.Api/obj/Debug/net10.0/rjsmrazor.dswa.cache.json
 /Users/raphaelbouchard/Uni/S8/APP1/Prob/GeneralSurvey/GeneralSurvey.Api/obj/Debug/net10.0/rjsmcshtml.dswa.cache.json
@@ -31,3 +32,6 @@
 /Users/raphaelbouchard/Uni/S8/APP1/Prob/GeneralSurvey/GeneralSurvey.Api/obj/Debug/net10.0/GeneralSurvey.Api.pdb
 /Users/raphaelbouchard/Uni/S8/APP1/Prob/GeneralSurvey/GeneralSurvey.Api/obj/Debug/net10.0/GeneralSurvey.Api.genruntimeconfig.cache
 /Users/raphaelbouchard/Uni/S8/APP1/Prob/GeneralSurvey/GeneralSurvey.Api/obj/Debug/net10.0/ref/GeneralSurvey.Api.dll
+/Users/raphaelbouchard/Uni/S8/APP1/Prob/GeneralSurvey/GeneralSurvey.Api/bin/Debug/net10.0/Swashbuckle.AspNetCore.Swagger.dll
+/Users/raphaelbouchard/Uni/S8/APP1/Prob/GeneralSurvey/GeneralSurvey.Api/bin/Debug/net10.0/Swashbuckle.AspNetCore.SwaggerGen.dll
+/Users/raphaelbouchard/Uni/S8/APP1/Prob/GeneralSurvey/GeneralSurvey.Api/bin/Debug/net10.0/Swashbuckle.AspNetCore.SwaggerUI.dll

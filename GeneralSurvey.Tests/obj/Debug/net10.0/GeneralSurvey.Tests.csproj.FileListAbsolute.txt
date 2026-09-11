@@ -99,6 +99,7 @@
 /Users/raphaelbouchard/Uni/S8/APP1/Prob/GeneralSurvey/GeneralSurvey.Tests/obj/Debug/net10.0/GeneralSurvey.Tests.AssemblyInfoInputs.cache
 /Users/raphaelbouchard/Uni/S8/APP1/Prob/GeneralSurvey/GeneralSurvey.Tests/obj/Debug/net10.0/GeneralSurvey.Tests.AssemblyInfo.cs
 /Users/raphaelbouchard/Uni/S8/APP1/Prob/GeneralSurvey/GeneralSurvey.Tests/obj/Debug/net10.0/GeneralSurvey.Tests.csproj.CoreCompileInputs.cache
+/Users/raphaelbouchard/Uni/S8/APP1/Prob/GeneralSurvey/GeneralSurvey.Tests/obj/Debug/net10.0/GeneralSurvey.Tests.sourcelink.json
 /Users/raphaelbouchard/Uni/S8/APP1/Prob/GeneralSurvey/GeneralSurvey.Tests/obj/Debug/net10.0/GeneralS.6E558F79.Up2Date
 /Users/raphaelbouchard/Uni/S8/APP1/Prob/GeneralSurvey/GeneralSurvey.Tests/obj/Debug/net10.0/GeneralSurvey.Tests.dll
 /Users/raphaelbouchard/Uni/S8/APP1/Prob/GeneralSurvey/GeneralSurvey.Tests/obj/Debug/net10.0/refint/GeneralSurvey.Tests.dll
