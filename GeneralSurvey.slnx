@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="GeneralSurvey.Api/GeneralSurvey.Api.csproj" />
+  <Project Path="GeneralSurvey.Tests/GeneralSurvey.Tests.csproj" />
+</Solution>

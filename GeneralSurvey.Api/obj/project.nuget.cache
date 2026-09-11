@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "JtZZU8+/exw=",
+  "success": true,
+  "projectFilePath": "/Users/raphaelbouchard/Uni/S8/APP1/Prob/GeneralSurvey/GeneralSurvey.Api/GeneralSurvey.Api.csproj",
+  "expectedPackageFiles": [
+    "/Users/raphaelbouchard/.nuget/packages/microsoft.aspnetcore.openapi/10.0.12/microsoft.aspnetcore.openapi.10.0.12.nupkg.sha512",
+    "/Users/raphaelbouchard/.nuget/packages/microsoft.openapi/2.12.0/microsoft.openapi.2.12.0.nupkg.sha512"
+  ],
+  "logs": []
+}
