@@ -42,19 +42,13 @@ public class SurveyParser
     {
         const string prefix = "Sondage ";
 
-        if (!line.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
-        {
-            throw new FormatException("Format de sondage invalide.");
-        }
-
         var title = line[prefix.Length..].Trim();
+        title = title.TrimEnd(':').Trim();
 
         if (string.IsNullOrWhiteSpace(title))
         {
             throw new FormatException("Le sondage doit avoir un numéro.");
         }
-
-        title = title.TrimEnd(':').Trim();
 
         if (!int.TryParse(title, out var id))
         {
@@ -148,11 +142,6 @@ public class SurveyParser
                 Code = code,
                 Text = text
             });
-        }
-
-        if (options.Count == 0)
-        {
-            throw new FormatException("Une question doit avoir des réponses.");
         }
 
         return options;

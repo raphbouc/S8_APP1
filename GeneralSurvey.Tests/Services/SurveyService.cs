@@ -103,4 +103,24 @@ public class SurveyServiceTests
             "Je ne bois pas de café",
             survey.Questions[2].Options[0].Text);
     }
+
+    [Fact]
+    public void Constructor_WithNonExistingFile_ThrowsFileNotFoundException()
+    {
+        var parser = new SurveyParser();
+
+        var filePath = Path.Combine(
+            AppContext.BaseDirectory,
+            "Data",
+            "fichier-inexistant.txt");
+
+        var exception = Assert.Throws<FileNotFoundException>(
+            () => new SurveyService(parser, filePath));
+
+        Assert.Equal(
+            "Le fichier de sondages est introuvable.",
+            exception.Message);
+
+        Assert.Equal(filePath, exception.FileName);
+}
 }
