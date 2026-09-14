@@ -16,6 +16,7 @@ public class SurveyService : ISurveyService
         }
 
         var content = File.ReadAllText(filePath);
+
         _surveys = parser.Parse(content);
     }
 
