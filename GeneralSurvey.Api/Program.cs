@@ -1,9 +1,18 @@
+using GeneralSurvey.Api.Middleware;
 using GeneralSurvey.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
+
+var userFilePath = Path.Combine(
+    builder.Environment.ContentRootPath,
+    "Database",
+    "users.json");
+
+builder.Services.AddSingleton<IUserService>(
+    new UserService(userFilePath));
 
 var surveyFilePath = Path.Combine(
     builder.Environment.ContentRootPath,
@@ -29,6 +38,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseMiddleware<ApiKeyMiddleware>();
 
 app.MapControllers();
 
