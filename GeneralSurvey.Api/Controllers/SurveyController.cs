@@ -39,7 +39,7 @@ public class SurveysController : ControllerBase
     }
 
     [HttpPost("{id:int}/responses")]
-    public ActionResult RespondToSurvey(
+    public async Task<ActionResult> RespondToSurvey(
         int id,
         [FromHeader(Name = "X-Participant-Key")] string? participantKey,
         SurveyResponse response)
@@ -54,7 +54,7 @@ public class SurveysController : ControllerBase
             return BadRequest();
         }
 
-        if (!_participantKeyService.IsValid(participantKey))
+        if (!await _participantKeyService.ConsumeAsync(participantKey))
         {
             return Unauthorized();
         }
@@ -63,8 +63,6 @@ public class SurveysController : ControllerBase
         {
             return BadRequest();
         }
-
-        _participantKeyService.Consume(participantKey);
 
         return Created();
     }

@@ -1,0 +1,350 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.7",
+  "serialNumber": "urn:uuid:502b1fc8-945d-4ecd-99f7-2b1a2645ac5b",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-09-16T17:48:57Z",
+    "tools": {
+      "components": [
+        {
+          "type": "application",
+          "authors": [
+            {
+              "name": "CycloneDX"
+            }
+          ],
+          "name": "CycloneDX module for .NET",
+          "version": "6.2.0.0",
+          "externalReferences": [
+            {
+              "url": "https://github.com/CycloneDX/cyclonedx-dotnet",
+              "type": "website"
+            }
+          ]
+        }
+      ]
+    },
+    "component": {
+      "type": "application",
+      "bom-ref": "GeneralSurvey.Api@0.0.0",
+      "name": "GeneralSurvey.Api",
+      "version": "0.0.0"
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "pkg:nuget/Microsoft.AspNetCore.OpenApi@10.0.12",
+      "authors": [
+        {
+          "name": "Microsoft"
+        }
+      ],
+      "name": "Microsoft.AspNetCore.OpenApi",
+      "version": "10.0.12",
+      "description": "Provides APIs for annotating route handler endpoints in ASP.NET Core with OpenAPI annotations.\n\nThis package was built from the source code at https://github.com/dotnet/dotnet/tree/95017c711e6afc1085133d440e42b4bd78155701",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "605815D27933AF8BE6597F857CE31F25F74E6C011EB2D3CBFDEA8898CF610A12D4A543B821213F2FF42D82A8338881C07C0B948856037A3A1BCE376812B06259"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "copyright": "\u00A9 Microsoft Corporation. All rights reserved.",
+      "purl": "pkg:nuget/Microsoft.AspNetCore.OpenApi@10.0.12",
+      "externalReferences": [
+        {
+          "url": "https://asp.net/",
+          "type": "website"
+        },
+        {
+          "url": "https://github.com/dotnet/dotnet",
+          "type": "vcs"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.ApiDescription.Server@10.0.0",
+      "authors": [
+        {
+          "name": "Microsoft"
+        }
+      ],
+      "name": "Microsoft.Extensions.ApiDescription.Server",
+      "version": "10.0.0",
+      "description": "MSBuild tasks and targets for build-time Swagger and OpenApi document generation\n\nThis package was built from the source code at https://github.com/dotnet/dotnet/tree/b0f34d51fccc69fd334253924abd8d6853fad7aa",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "25E9DDC666061CCBB34870E47B511EEAB7693CF1C8965E5A6F479650A4539138176DD67591575F15700534A7F67D2E13F2F0E9DC295BEF6B0D2875739D1C5AE7"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "copyright": "\u00A9 Microsoft Corporation. All rights reserved.",
+      "purl": "pkg:nuget/Microsoft.Extensions.ApiDescription.Server@10.0.0",
+      "externalReferences": [
+        {
+          "url": "https://asp.net/",
+          "type": "website"
+        },
+        {
+          "url": "https://github.com/dotnet/dotnet",
+          "type": "vcs"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:nuget/Microsoft.OpenApi@2.12.0",
+      "authors": [
+        {
+          "name": "Microsoft"
+        }
+      ],
+      "name": "Microsoft.OpenApi",
+      "version": "2.12.0",
+      "description": ".NET models with JSON and YAML writers for OpenAPI specification",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "8EA1CE293B0170F035C6A2B99686528F54A8B30A1BDBD9BEF9A79BFC6F96175EFAC525E9BB69F4C458C5E3C3D7BA3325DE750C1742713EA23CE16864901588E4"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "copyright": "\u00A9 Microsoft Corporation. All rights reserved.",
+      "purl": "pkg:nuget/Microsoft.OpenApi@2.12.0",
+      "externalReferences": [
+        {
+          "url": "https://github.com/Microsoft/OpenAPI.NET",
+          "type": "website"
+        },
+        {
+          "url": "https://github.com/Microsoft/OpenAPI.NET",
+          "type": "vcs"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:nuget/Swashbuckle.AspNetCore@10.2.3",
+      "authors": [
+        {
+          "name": "domaindrivendev"
+        }
+      ],
+      "name": "Swashbuckle.AspNetCore",
+      "version": "10.2.3",
+      "description": "Swagger tools for documenting APIs built on ASP.NET Core",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "227BB3529A7260CBFF727D20BAE694471258E878557B9F1F1AFE7C39A75EF1274B7B8F5CE460131FC0C403ECD0BAFC84BFDCEB70D1438232CE9CC611394D5899"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:nuget/Swashbuckle.AspNetCore@10.2.3",
+      "externalReferences": [
+        {
+          "url": "https://github.com/domaindrivendev/Swashbuckle.AspNetCore",
+          "type": "website"
+        },
+        {
+          "url": "https://github.com/domaindrivendev/Swashbuckle.AspNetCore.git",
+          "type": "vcs"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:nuget/Swashbuckle.AspNetCore.Swagger@10.2.3",
+      "authors": [
+        {
+          "name": "domaindrivendev"
+        }
+      ],
+      "name": "Swashbuckle.AspNetCore.Swagger",
+      "version": "10.2.3",
+      "description": "Middleware to expose Swagger JSON endpoints from APIs built on ASP.NET Core",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "9BA227C1E1AA2BB673665A8EC26DD83E55641F8B7769CE394AD4D4DB5BBA2901C39E649AD6F37DD2E191A8CC41B941B07D86CB1A85A39623408BB8AD71C2C37D"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "copyright": "Copyright (c) 2016-2026 Richard Morris",
+      "purl": "pkg:nuget/Swashbuckle.AspNetCore.Swagger@10.2.3",
+      "externalReferences": [
+        {
+          "url": "https://github.com/domaindrivendev/Swashbuckle.AspNetCore",
+          "type": "website"
+        },
+        {
+          "url": "https://github.com/domaindrivendev/Swashbuckle.AspNetCore.git",
+          "type": "vcs"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:nuget/Swashbuckle.AspNetCore.SwaggerGen@10.2.3",
+      "authors": [
+        {
+          "name": "domaindrivendev"
+        }
+      ],
+      "name": "Swashbuckle.AspNetCore.SwaggerGen",
+      "version": "10.2.3",
+      "description": "Swagger Generator for APIs built on ASP.NET Core",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "71322FE48BA37C1C77BE0292419E1F993C6E39819BEA0CABFB2FB83B930BE28ACED0300BE9D45ABE0FF410E43667509D7FFE83FCC175612F657729C716E2D833"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "copyright": "Copyright (c) 2016-2026 Richard Morris",
+      "purl": "pkg:nuget/Swashbuckle.AspNetCore.SwaggerGen@10.2.3",
+      "externalReferences": [
+        {
+          "url": "https://github.com/domaindrivendev/Swashbuckle.AspNetCore",
+          "type": "website"
+        },
+        {
+          "url": "https://github.com/domaindrivendev/Swashbuckle.AspNetCore.git",
+          "type": "vcs"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:nuget/Swashbuckle.AspNetCore.SwaggerUI@10.2.3",
+      "authors": [
+        {
+          "name": "domaindrivendev"
+        }
+      ],
+      "name": "Swashbuckle.AspNetCore.SwaggerUI",
+      "version": "10.2.3",
+      "description": "Middleware to expose an embedded version of the swagger-ui from an ASP.NET Core application",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "046AFDDFF3AAB45262915A4F839371DC9BA5D63C16AE894C721DF75E437F3AEAC03B7F688189B9D8E089ED215EBFB4CF28AAF6F77AE1A219CA79CA70B21E7976"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "copyright": "Copyright (c) 2016-2026 Richard Morris",
+      "purl": "pkg:nuget/Swashbuckle.AspNetCore.SwaggerUI@10.2.3",
+      "externalReferences": [
+        {
+          "url": "https://github.com/domaindrivendev/Swashbuckle.AspNetCore",
+          "type": "website"
+        },
+        {
+          "url": "https://github.com/domaindrivendev/Swashbuckle.AspNetCore.git",
+          "type": "vcs"
+        }
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "GeneralSurvey.Api@0.0.0",
+      "dependsOn": [
+        "pkg:nuget/Microsoft.AspNetCore.OpenApi@10.0.12",
+        "pkg:nuget/Swashbuckle.AspNetCore@10.2.3"
+      ]
+    },
+    {
+      "ref": "pkg:nuget/Microsoft.AspNetCore.OpenApi@10.0.12",
+      "dependsOn": [
+        "pkg:nuget/Microsoft.OpenApi@2.12.0"
+      ]
+    },
+    {
+      "ref": "pkg:nuget/Microsoft.Extensions.ApiDescription.Server@10.0.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:nuget/Microsoft.OpenApi@2.12.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:nuget/Swashbuckle.AspNetCore.Swagger@10.2.3",
+      "dependsOn": [
+        "pkg:nuget/Microsoft.OpenApi@2.12.0"
+      ]
+    },
+    {
+      "ref": "pkg:nuget/Swashbuckle.AspNetCore.SwaggerGen@10.2.3",
+      "dependsOn": [
+        "pkg:nuget/Swashbuckle.AspNetCore.Swagger@10.2.3"
+      ]
+    },
+    {
+      "ref": "pkg:nuget/Swashbuckle.AspNetCore.SwaggerUI@10.2.3",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:nuget/Swashbuckle.AspNetCore@10.2.3",
+      "dependsOn": [
+        "pkg:nuget/Microsoft.Extensions.ApiDescription.Server@10.0.0",
+        "pkg:nuget/Swashbuckle.AspNetCore.Swagger@10.2.3",
+        "pkg:nuget/Swashbuckle.AspNetCore.SwaggerGen@10.2.3",
+        "pkg:nuget/Swashbuckle.AspNetCore.SwaggerUI@10.2.3"
+      ]
+    }
+  ]
+}

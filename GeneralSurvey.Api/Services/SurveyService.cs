@@ -13,6 +13,9 @@ public class SurveyService : ISurveyService
         string surveyFilePath,
         string responsesFilePath)
     {
+        ValidatePath(surveyFilePath);
+        ValidatePath(responsesFilePath);
+
         if (!File.Exists(surveyFilePath))
         {
             throw new FileNotFoundException(
@@ -28,6 +31,25 @@ public class SurveyService : ISurveyService
         if (!File.Exists(_responsesFilePath))
         {
             SaveResponses([]);
+        }
+    }
+    private static void ValidatePath(string filePath)
+    {
+        if (filePath.Contains('\0', StringComparison.Ordinal))
+        {
+            throw new ArgumentException(
+                "Le chemin contient des caractères invalides (null byte).",
+                nameof(filePath));
+        }
+
+
+        var normalised = filePath.Replace('\\', '/');
+        if (normalised.Contains("../", StringComparison.Ordinal) ||
+            normalised.Contains("/..", StringComparison.Ordinal) ||
+            normalised == "..")
+        {
+            throw new UnauthorizedAccessException(
+                "Tentative de traversée de répertoire détectée dans le chemin.");
         }
     }
 

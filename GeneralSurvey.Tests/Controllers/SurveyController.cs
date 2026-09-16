@@ -57,11 +57,11 @@ public class SurveysControllerTests
     }
 
     [Fact]
-    public void RespondToSurvey_WithoutParticipantKey_ReturnsUnauthorized()
+    public async Task RespondToSurvey_WithoutParticipantKey_ReturnsUnauthorized()
     {
         var controller = CreateController();
 
-        var result = controller.RespondToSurvey(
+        var result = await controller.RespondToSurvey(
             1,
             null,
             CreateValidResponse());
@@ -70,11 +70,11 @@ public class SurveysControllerTests
     }
 
     [Fact]
-    public void RespondToSurvey_WithEmptyParticipantKey_ReturnsUnauthorized()
+    public async Task RespondToSurvey_WithEmptyParticipantKey_ReturnsUnauthorized()
     {
         var controller = CreateController();
 
-        var result = controller.RespondToSurvey(
+        var result = await controller.RespondToSurvey(
             1,
             "",
             CreateValidResponse());
@@ -83,17 +83,30 @@ public class SurveysControllerTests
     }
 
     [Fact]
-    public void RespondToSurvey_WithInvalidParticipantKey_ReturnsUnauthorized()
+    public async Task RespondToSurvey_WithWhitespaceParticipantKey_ReturnsUnauthorized()
+    {
+        var controller = CreateController();
+
+        var result = await controller.RespondToSurvey(
+            1,
+            "   ",
+            CreateValidResponse());
+
+        Assert.IsType<UnauthorizedResult>(result);
+    }
+
+    [Fact]
+    public async Task RespondToSurvey_WithInvalidParticipantKey_ReturnsUnauthorized()
     {
         var participantKeyService = new FakeParticipantKeyService
         {
-            IsValidResult = false
+            ConsumeResult = false
         };
 
         var controller = CreateController(
             participantKeyService: participantKeyService);
 
-        var result = controller.RespondToSurvey(
+        var result = await controller.RespondToSurvey(
             1,
             "invalid-key",
             CreateValidResponse());
@@ -102,14 +115,14 @@ public class SurveysControllerTests
     }
 
     [Fact]
-    public void RespondToSurvey_WithDifferentSurveyId_ReturnsBadRequest()
+    public async Task RespondToSurvey_WithDifferentSurveyId_ReturnsBadRequest()
     {
         var controller = CreateController();
 
         var response = CreateValidResponse();
         response.SurveyId = 2;
 
-        var result = controller.RespondToSurvey(
+        var result = await controller.RespondToSurvey(
             1,
             "valid-key",
             response);
@@ -118,7 +131,7 @@ public class SurveysControllerTests
     }
 
     [Fact]
-    public void RespondToSurvey_WithInvalidResponse_ReturnsBadRequest()
+    public async Task RespondToSurvey_WithInvalidResponse_ReturnsBadRequest()
     {
         var surveyService = new FakeSurveyService
         {
@@ -128,7 +141,7 @@ public class SurveysControllerTests
         var controller = CreateController(
             surveyService: surveyService);
 
-        var result = controller.RespondToSurvey(
+        var result = await controller.RespondToSurvey(
             1,
             "valid-key",
             CreateValidResponse());
@@ -137,14 +150,14 @@ public class SurveysControllerTests
     }
 
     [Fact]
-    public void RespondToSurvey_WithValidResponse_ReturnsCreated()
+    public async Task RespondToSurvey_WithValidResponse_ReturnsCreated()
     {
         var participantKeyService = new FakeParticipantKeyService();
 
         var controller = CreateController(
             participantKeyService: participantKeyService);
 
-        var result = controller.RespondToSurvey(
+        var result = await controller.RespondToSurvey(
             1,
             "valid-key",
             CreateValidResponse());
@@ -212,19 +225,19 @@ public class SurveysControllerTests
     private sealed class FakeParticipantKeyService
         : IParticipantKeyService
     {
-        public bool IsValidResult { get; set; } = true;
+        public bool ConsumeResult { get; set; } = true;
 
         public bool ConsumeCalled { get; private set; }
 
         public bool IsValid(string key)
         {
-            return IsValidResult;
+            return ConsumeResult;
         }
 
-        public bool Consume(string key)
+        public Task<bool> ConsumeAsync(string key)
         {
             ConsumeCalled = true;
-            return true;
+            return Task.FromResult(ConsumeResult);
         }
     }
 }
