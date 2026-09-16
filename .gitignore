@@ -48,4 +48,4 @@ msbuild.wrn
 
 coverage-report/
 
-*.xml
+TestResults/
