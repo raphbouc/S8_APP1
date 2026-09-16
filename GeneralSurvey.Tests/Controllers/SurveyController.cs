@@ -7,11 +7,16 @@ namespace GeneralSurvey.Tests.Controllers;
 
 public class SurveysControllerTests
 {
-    private static SurveysController CreateController()
+    private static SurveysController CreateController(
+        FakeSurveyService? surveyService = null,
+        FakeParticipantKeyService? participantKeyService = null)
     {
-        var service = new FakeSurveyService();
+        surveyService ??= new FakeSurveyService();
+        participantKeyService ??= new FakeParticipantKeyService();
 
-        return new SurveysController(service);
+        return new SurveysController(
+            surveyService,
+            participantKeyService);
     }
 
     [Fact]
@@ -51,6 +56,119 @@ public class SurveysControllerTests
         Assert.IsType<NotFoundResult>(result.Result);
     }
 
+    [Fact]
+    public void RespondToSurvey_WithoutParticipantKey_ReturnsUnauthorized()
+    {
+        var controller = CreateController();
+
+        var result = controller.RespondToSurvey(
+            1,
+            null,
+            CreateValidResponse());
+
+        Assert.IsType<UnauthorizedResult>(result);
+    }
+
+    [Fact]
+    public void RespondToSurvey_WithEmptyParticipantKey_ReturnsUnauthorized()
+    {
+        var controller = CreateController();
+
+        var result = controller.RespondToSurvey(
+            1,
+            "",
+            CreateValidResponse());
+
+        Assert.IsType<UnauthorizedResult>(result);
+    }
+
+    [Fact]
+    public void RespondToSurvey_WithInvalidParticipantKey_ReturnsUnauthorized()
+    {
+        var participantKeyService = new FakeParticipantKeyService
+        {
+            IsValidResult = false
+        };
+
+        var controller = CreateController(
+            participantKeyService: participantKeyService);
+
+        var result = controller.RespondToSurvey(
+            1,
+            "invalid-key",
+            CreateValidResponse());
+
+        Assert.IsType<UnauthorizedResult>(result);
+    }
+
+    [Fact]
+    public void RespondToSurvey_WithDifferentSurveyId_ReturnsBadRequest()
+    {
+        var controller = CreateController();
+
+        var response = CreateValidResponse();
+        response.SurveyId = 2;
+
+        var result = controller.RespondToSurvey(
+            1,
+            "valid-key",
+            response);
+
+        Assert.IsType<BadRequestResult>(result);
+    }
+
+    [Fact]
+    public void RespondToSurvey_WithInvalidResponse_ReturnsBadRequest()
+    {
+        var surveyService = new FakeSurveyService
+        {
+            RespondToSurveyResult = false
+        };
+
+        var controller = CreateController(
+            surveyService: surveyService);
+
+        var result = controller.RespondToSurvey(
+            1,
+            "valid-key",
+            CreateValidResponse());
+
+        Assert.IsType<BadRequestResult>(result);
+    }
+
+    [Fact]
+    public void RespondToSurvey_WithValidResponse_ReturnsCreated()
+    {
+        var participantKeyService = new FakeParticipantKeyService();
+
+        var controller = CreateController(
+            participantKeyService: participantKeyService);
+
+        var result = controller.RespondToSurvey(
+            1,
+            "valid-key",
+            CreateValidResponse());
+
+        Assert.IsType<CreatedResult>(result);
+        Assert.True(participantKeyService.ConsumeCalled);
+    }
+
+    private static SurveyResponse CreateValidResponse()
+    {
+        return new SurveyResponse
+        {
+            SurveyId = 1,
+            Answers =
+            [
+                new Answer
+                {
+                    QuestionId = 1,
+                    AnswerValue = "a"
+                }
+            ]
+        };
+    }
+
     private sealed class FakeSurveyService : ISurveyService
     {
         private readonly List<Survey> _surveys =
@@ -67,6 +185,8 @@ public class SurveysControllerTests
             }
         ];
 
+        public bool RespondToSurveyResult { get; set; } = true;
+
         public List<Survey> GetSurveys()
         {
             return _surveys;
@@ -74,7 +194,37 @@ public class SurveysControllerTests
 
         public Survey? GetSurvey(int id)
         {
-            return _surveys.FirstOrDefault(survey => survey.Id == id);
+            return _surveys.FirstOrDefault(
+                survey => survey.Id == id);
+        }
+
+        public List<SurveyResponse> GetAllAnswersBySurveyId(int id)
+        {
+            return [];
+        }
+
+        public bool RespondToSurvey(SurveyResponse surveyResponse)
+        {
+            return RespondToSurveyResult;
+        }
+    }
+
+    private sealed class FakeParticipantKeyService
+        : IParticipantKeyService
+    {
+        public bool IsValidResult { get; set; } = true;
+
+        public bool ConsumeCalled { get; private set; }
+
+        public bool IsValid(string key)
+        {
+            return IsValidResult;
+        }
+
+        public bool Consume(string key)
+        {
+            ConsumeCalled = true;
+            return true;
         }
     }
 }

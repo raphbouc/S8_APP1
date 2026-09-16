@@ -1,6 +1,7 @@
-using GeneralSurvey.Api.Services;
-
 namespace GeneralSurvey.Tests.Services;
+
+using GeneralSurvey.Api.Models;
+using GeneralSurvey.Api.Services;
 
 public class SurveyServiceTests
 {
@@ -12,12 +13,25 @@ public class SurveyServiceTests
             "sondage.txt");
     }
 
+    private static string CreateResponsesFile()
+    {
+        var filePath = Path.GetTempFileName();
+
+        File.WriteAllText(filePath, "[]");
+
+        return filePath;
+    }
+
     private static SurveyService CreateService()
     {
         var parser = new SurveyParser();
-        var filePath = GetSurveyFilePath();
+        var surveyFilePath = GetSurveyFilePath();
+        var responsesFilePath = CreateResponsesFile();
 
-        return new SurveyService(parser, filePath);
+        return new SurveyService(
+            parser,
+            surveyFilePath,
+            responsesFilePath);
     }
 
     [Fact]
@@ -109,18 +123,395 @@ public class SurveyServiceTests
     {
         var parser = new SurveyParser();
 
-        var filePath = Path.Combine(
+        var surveyFilePath = Path.Combine(
             AppContext.BaseDirectory,
             "Data",
             "fichier-inexistant.txt");
 
+        var responsesFilePath = CreateResponsesFile();
+
         var exception = Assert.Throws<FileNotFoundException>(
-            () => new SurveyService(parser, filePath));
+            () => new SurveyService(
+                parser,
+                surveyFilePath,
+                responsesFilePath));
 
         Assert.Equal(
             "Le fichier de sondages est introuvable.",
             exception.Message);
 
-        Assert.Equal(filePath, exception.FileName);
-}
+        Assert.Equal(
+            surveyFilePath,
+            exception.FileName);
+    }
+
+    [Fact]
+    public void RespondToSurvey_WithValidResponse_ReturnsTrue()
+    {
+        var service = CreateService();
+
+        var response = new SurveyResponse
+        {
+            SurveyId = 1,
+            Answers =
+            [
+                new Answer
+                {
+                    QuestionId = 1,
+                    AnswerValue = "a"
+                },
+                new Answer
+                {
+                    QuestionId = 2,
+                    AnswerValue = "a"
+                },
+                new Answer
+                {
+                    QuestionId = 3,
+                    AnswerValue = "a"
+                },
+                new Answer
+                {
+                    QuestionId = 4,
+                    AnswerValue = "a"
+                }
+            ]
+        };
+
+        var result = service.RespondToSurvey(response);
+
+        Assert.True(result);
+    }
+
+    [Fact]
+    public void RespondToSurvey_WithValidResponse_SavesResponse()
+    {
+        var service = CreateService();
+
+        var response = new SurveyResponse
+        {
+            SurveyId = 1,
+            Answers =
+            [
+                new Answer
+                {
+                    QuestionId = 1,
+                    AnswerValue = "a"
+                },
+                new Answer
+                {
+                    QuestionId = 2,
+                    AnswerValue = "a"
+                },
+                new Answer
+                {
+                    QuestionId = 3,
+                    AnswerValue = "a"
+                },
+                new Answer
+                {
+                    QuestionId = 4,
+                    AnswerValue = "a"
+                }
+            ]
+        };
+
+        service.RespondToSurvey(response);
+
+        var responses = service.GetAllAnswersBySurveyId(1);
+
+        Assert.Single(responses);
+        Assert.Equal(1, responses[0].SurveyId);
+        Assert.Equal(4, responses[0].Answers.Count);
+    }
+
+    [Fact]
+    public void GetAllAnswersBySurveyId_WithNoResponses_ReturnsEmptyList()
+    {
+        var service = CreateService();
+
+        var responses = service.GetAllAnswersBySurveyId(1);
+
+        Assert.Empty(responses);
+    }
+
+    [Fact]
+    public void GetAllAnswersBySurveyId_WithDifferentSurvey_ReturnsOnlyMatchingResponses()
+    {
+        var service = CreateService();
+
+        var response = new SurveyResponse
+        {
+            SurveyId = 1,
+            Answers =
+            [
+                new Answer
+                {
+                    QuestionId = 1,
+                    AnswerValue = "a"
+                },
+                new Answer
+                {
+                    QuestionId = 2,
+                    AnswerValue = "a"
+                },
+                new Answer
+                {
+                    QuestionId = 3,
+                    AnswerValue = "a"
+                },
+                new Answer
+                {
+                    QuestionId = 4,
+                    AnswerValue = "a"
+                }
+            ]
+        };
+
+        service.RespondToSurvey(response);
+
+        var responses = service.GetAllAnswersBySurveyId(2);
+
+        Assert.Empty(responses);
+    }
+
+    [Fact]
+    public void RespondToSurvey_WithNonExistingSurvey_ReturnsFalse()
+    {
+        var service = CreateService();
+
+        var response = new SurveyResponse
+        {
+            SurveyId = 999,
+            Answers = []
+        };
+
+        var result = service.RespondToSurvey(response);
+
+        Assert.False(result);
+    }
+
+    [Fact]
+    public void RespondToSurvey_WithWrongNumberOfAnswers_ReturnsFalse()
+    {
+        var service = CreateService();
+
+        var response = new SurveyResponse
+        {
+            SurveyId = 1,
+            Answers =
+            [
+                new Answer
+                {
+                    QuestionId = 1,
+                    AnswerValue = "a"
+                }
+            ]
+        };
+
+        var result = service.RespondToSurvey(response);
+
+        Assert.False(result);
+    }
+
+    [Fact]
+    public void RespondToSurvey_WithDuplicateQuestion_ReturnsFalse()
+    {
+        var service = CreateService();
+
+        var response = new SurveyResponse
+        {
+            SurveyId = 1,
+            Answers =
+            [
+                new Answer
+                {
+                    QuestionId = 1,
+                    AnswerValue = "a"
+                },
+                new Answer
+                {
+                    QuestionId = 1,
+                    AnswerValue = "b"
+                },
+                new Answer
+                {
+                    QuestionId = 3,
+                    AnswerValue = "a"
+                },
+                new Answer
+                {
+                    QuestionId = 4,
+                    AnswerValue = "a"
+                }
+            ]
+        };
+
+        var result = service.RespondToSurvey(response);
+
+        Assert.False(result);
+    }
+
+    [Fact]
+    public void RespondToSurvey_WithNonExistingQuestion_ReturnsFalse()
+    {
+        var service = CreateService();
+
+        var response = new SurveyResponse
+        {
+            SurveyId = 1,
+            Answers =
+            [
+                new Answer
+                {
+                    QuestionId = 1,
+                    AnswerValue = "a"
+                },
+                new Answer
+                {
+                    QuestionId = 2,
+                    AnswerValue = "a"
+                },
+                new Answer
+                {
+                    QuestionId = 3,
+                    AnswerValue = "a"
+                },
+                new Answer
+                {
+                    QuestionId = 999,
+                    AnswerValue = "a"
+                }
+            ]
+        };
+
+        var result = service.RespondToSurvey(response);
+
+        Assert.False(result);
+    }
+
+    [Fact]
+    public void RespondToSurvey_WithNonExistingOption_ReturnsFalse()
+    {
+        var service = CreateService();
+
+        var response = new SurveyResponse
+        {
+            SurveyId = 1,
+            Answers =
+            [
+                new Answer
+                {
+                    QuestionId = 1,
+                    AnswerValue = "z"
+                },
+                new Answer
+                {
+                    QuestionId = 2,
+                    AnswerValue = "a"
+                },
+                new Answer
+                {
+                    QuestionId = 3,
+                    AnswerValue = "a"
+                },
+                new Answer
+                {
+                    QuestionId = 4,
+                    AnswerValue = "a"
+                }
+            ]
+        };
+
+        var result = service.RespondToSurvey(response);
+
+        Assert.False(result);
+    }
+
+    [Fact]
+    public void Constructor_WithNonExistingResponsesFile_CreatesFile()
+    {
+        var parser = new SurveyParser();
+        var surveyFilePath = GetSurveyFilePath();
+
+        var responsesFilePath = Path.Combine(
+            Path.GetTempPath(),
+            Guid.NewGuid() + ".json");
+
+        try
+        {
+            _ = new SurveyService(
+                parser,
+                surveyFilePath,
+                responsesFilePath);
+
+            Assert.True(File.Exists(responsesFilePath));
+            Assert.Equal("[]", File.ReadAllText(responsesFilePath));
+        }
+        finally
+        {
+            if (File.Exists(responsesFilePath))
+            {
+                File.Delete(responsesFilePath);
+            }
+        }
+    }
+
+    [Fact]
+    public void GetAllAnswersBySurveyId_WithEmptyResponsesFile_ReturnsEmptyList()
+    {
+        var parser = new SurveyParser();
+        var surveyFilePath = GetSurveyFilePath();
+        var responsesFilePath = Path.GetTempFileName();
+
+        try
+        {
+            File.WriteAllText(responsesFilePath, "");
+
+            var service = new SurveyService(
+                parser,
+                surveyFilePath,
+                responsesFilePath);
+
+            var responses = service.GetAllAnswersBySurveyId(1);
+
+            Assert.Empty(responses);
+        }
+        finally
+        {
+            if (File.Exists(responsesFilePath))
+            {
+                File.Delete(responsesFilePath);
+            }
+        }
+    }
+
+    [Fact]
+    public void GetAllAnswersBySurveyId_WithNullJson_ReturnsEmptyList()
+    {
+        var parser = new SurveyParser();
+        var surveyFilePath = GetSurveyFilePath();
+        var responsesFilePath = Path.GetTempFileName();
+
+        try
+        {
+            File.WriteAllText(responsesFilePath, "null");
+
+            var service = new SurveyService(
+                parser,
+                surveyFilePath,
+                responsesFilePath);
+
+            var responses = service.GetAllAnswersBySurveyId(1);
+
+            Assert.Empty(responses);
+        }
+        finally
+        {
+            if (File.Exists(responsesFilePath))
+            {
+                File.Delete(responsesFilePath);
+            }
+        }
+    }
 }

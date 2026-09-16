@@ -5,6 +5,7 @@ namespace GeneralSurvey.Api.Services;
 public interface ISurveyService
 {
     List<Survey> GetSurveys();
-
     Survey? GetSurvey(int id);
+    List<SurveyResponse> GetAllAnswersBySurveyId(int id);
+    bool RespondToSurvey(SurveyResponse surveyResponse);
 }

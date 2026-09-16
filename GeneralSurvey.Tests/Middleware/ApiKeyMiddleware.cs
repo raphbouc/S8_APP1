@@ -93,4 +93,25 @@ public class ApiKeyMiddlewareTests
             StatusCodes.Status401Unauthorized,
             context.Response.StatusCode);
     }
+
+    [Fact]
+    public async Task InvokeAsync_WithSwaggerRequest_CallsNext()
+    {
+        var context = new DefaultHttpContext();
+
+        context.Request.Path = "/swagger";
+
+        var nextCalled = false;
+
+        var middleware = CreateMiddleware(
+            _ =>
+            {
+                nextCalled = true;
+                return Task.CompletedTask;
+            });
+
+        await middleware.InvokeAsync(context);
+
+        Assert.True(nextCalled);
+    }
 }

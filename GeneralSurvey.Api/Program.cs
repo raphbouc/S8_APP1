@@ -4,30 +4,37 @@ using GeneralSurvey.Api.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
-builder.Services.AddOpenApi();
-
-var userFilePath = Path.Combine(
-    builder.Environment.ContentRootPath,
-    "Database",
-    "users.json");
-
-builder.Services.AddSingleton<IUserService>(
-    new UserService(userFilePath));
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var surveyFilePath = Path.Combine(
     builder.Environment.ContentRootPath,
     "Data",
     "sondage.txt");
 
-builder.Services.AddSingleton<ISurveyService>(serviceProvider =>
-{
-    var parser = new SurveyParser();
+var responsesFilePath = Path.Combine(
+    builder.Environment.ContentRootPath,
+    "Database",
+    "responses.json");
 
-    return new SurveyService(parser, surveyFilePath);
-});
+builder.Services.AddSingleton<ISurveyService>(
+    serviceProvider =>
+    {
+        var parser = new SurveyParser();
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+        return new SurveyService(
+            parser,
+            surveyFilePath,
+            responsesFilePath);
+    });
+
+var participantKeyFilePath = Path.Combine(
+    builder.Environment.ContentRootPath,
+    "Database",
+    "participant-keys.json");
+
+builder.Services.AddSingleton<IParticipantKeyService>(
+    new ParticipantKeyService(participantKeyFilePath));
 
 var app = builder.Build();
 
@@ -44,3 +51,6 @@ app.UseMiddleware<ApiKeyMiddleware>();
 app.MapControllers();
 
 app.Run();
+
+[System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+public partial class Program { }

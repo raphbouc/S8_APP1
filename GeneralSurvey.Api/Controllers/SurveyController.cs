@@ -9,10 +9,14 @@ namespace GeneralSurvey.Api.Controllers;
 public class SurveysController : ControllerBase
 {
     private readonly ISurveyService _surveyService;
+    private readonly IParticipantKeyService _participantKeyService;
 
-    public SurveysController(ISurveyService surveyService)
+    public SurveysController(
+        ISurveyService surveyService,
+        IParticipantKeyService participantKeyService)
     {
         _surveyService = surveyService;
+        _participantKeyService = participantKeyService;
     }
 
     [HttpGet]
@@ -32,5 +36,36 @@ public class SurveysController : ControllerBase
         }
 
         return Ok(survey);
+    }
+
+    [HttpPost("{id:int}/responses")]
+    public ActionResult RespondToSurvey(
+        int id,
+        [FromHeader(Name = "X-Participant-Key")] string? participantKey,
+        SurveyResponse response)
+    {
+        if (string.IsNullOrWhiteSpace(participantKey))
+        {
+            return Unauthorized();
+        }
+
+        if (id != response.SurveyId)
+        {
+            return BadRequest();
+        }
+
+        if (!_participantKeyService.IsValid(participantKey))
+        {
+            return Unauthorized();
+        }
+
+        if (!_surveyService.RespondToSurvey(response))
+        {
+            return BadRequest();
+        }
+
+        _participantKeyService.Consume(participantKey);
+
+        return Created();
     }
 }

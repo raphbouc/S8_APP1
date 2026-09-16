@@ -17,24 +17,44 @@ public class ApiKeyMiddleware
 
     public async Task InvokeAsync(HttpContext context)
     {
+        if (IsSwaggerRequest(context))
+        {
+            await _next(context);
+            return;
+        }
+
         if (!context.Request.Headers.TryGetValue(
                 ApiKeyHeaderName,
                 out var providedApiKey))
         {
-            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-            await context.Response.WriteAsync("Clé API manquante.");
+            context.Response.StatusCode =
+                StatusCodes.Status401Unauthorized;
+
+            await context.Response.WriteAsync(
+                "Clé API manquante.");
+
             return;
         }
 
         var apiKey = _configuration["ApiKey"];
 
-        if (string.IsNullOrEmpty(apiKey) || providedApiKey != apiKey)
+        if (string.IsNullOrEmpty(apiKey) ||
+            providedApiKey != apiKey)
         {
-            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-            await context.Response.WriteAsync("Clé API invalide.");
+            context.Response.StatusCode =
+                StatusCodes.Status401Unauthorized;
+
+            await context.Response.WriteAsync(
+                "Clé API invalide.");
+
             return;
         }
 
         await _next(context);
+    }
+
+    private static bool IsSwaggerRequest(HttpContext context)
+    {
+        return context.Request.Path.StartsWithSegments("/swagger");
     }
 }
