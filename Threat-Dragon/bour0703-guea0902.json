@@ -2,7 +2,7 @@
   "version": "2.6.2",
   "summary": {
     "title": "GeneralSurvey",
-    "owner": "Coup de Sonde",
+    "owner": "bour0703-guea0902",
     "description": "Modèle STRIDE de l'API GeneralSurvey permettant la consultation de sondages et la soumission anonyme de réponses à l'aide de clés uniques.",
     "id": 0
   },
@@ -311,7 +311,7 @@
                 "text": "GeneralSurvey API"
               },
               "body": {
-                "stroke": "red",
+                "stroke": "black",
                 "strokeWidth": 2.5,
                 "strokeDasharray": null
               }
@@ -464,12 +464,12 @@
                 "text": "sondage.txt"
               },
               "topLine": {
-                "stroke": "red",
+                "stroke": "black",
                 "strokeWidth": 2.5,
                 "strokeDasharray": null
               },
               "bottomLine": {
-                "stroke": "red",
+                "stroke": "black",
                 "strokeWidth": 2.5,
                 "strokeDasharray": null
               }
@@ -607,12 +607,12 @@
                 "text": "responses.json"
               },
               "topLine": {
-                "stroke": "red",
+                "stroke": "black",
                 "strokeWidth": 2.5,
                 "strokeDasharray": null
               },
               "bottomLine": {
-                "stroke": "red",
+                "stroke": "black",
                 "strokeWidth": 2.5,
                 "strokeDasharray": null
               }
@@ -758,12 +758,12 @@
                 "text": "participant-keys.json"
               },
               "topLine": {
-                "stroke": "red",
+                "stroke": "black",
                 "strokeWidth": 2.5,
                 "strokeDasharray": null
               },
               "bottomLine": {
-                "stroke": "red",
+                "stroke": "black",
                 "strokeWidth": 2.5,
                 "strokeDasharray": null
               }
@@ -899,7 +899,7 @@
             "shape": "flow",
             "attrs": {
               "line": {
-                "stroke": "red",
+                "stroke": "black",
                 "strokeWidth": 2.5,
                 "targetMarker": {
                   "name": "block"
@@ -963,16 +963,6 @@
             "target": {
               "x": 390,
               "y": 260
-            },
-            "tools": {
-              "items": [
-                "boundary",
-                "button-remove",
-                "vertices",
-                "source-arrowhead",
-                "target-arrowhead"
-              ],
-              "name": null
             }
           },
           {
@@ -1040,7 +1030,7 @@
             "shape": "flow",
             "attrs": {
               "line": {
-                "stroke": "red",
+                "stroke": "black",
                 "strokeWidth": 2.5,
                 "targetMarker": {
                   "name": "block"
@@ -1116,7 +1106,7 @@
             "shape": "flow",
             "attrs": {
               "line": {
-                "stroke": "red",
+                "stroke": "black",
                 "strokeWidth": 2.5,
                 "targetMarker": {
                   "name": "block"
@@ -1170,7 +1160,7 @@
             "shape": "flow",
             "attrs": {
               "line": {
-                "stroke": "red",
+                "stroke": "black",
                 "strokeWidth": 2.5,
                 "targetMarker": {
                   "name": "block"
