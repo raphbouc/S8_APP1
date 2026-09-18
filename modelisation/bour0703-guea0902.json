@@ -2,7 +2,7 @@
   "version": "2.6.2",
   "summary": {
     "title": "GeneralSurvey",
-    "owner": "Coup de Sonde",
+    "owner": "guea0902-bour0703",
     "description": "Modèle STRIDE de l'API GeneralSurvey permettant la consultation de sondages et la soumission anonyme de réponses à l'aide de clés uniques.",
     "id": 0
   },
@@ -311,8 +311,8 @@
                 "text": "GeneralSurvey API"
               },
               "body": {
-                "stroke": "red",
-                "strokeWidth": 2.5,
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
                 "strokeDasharray": null
               }
             },
@@ -409,7 +409,7 @@
               "outOfScope": false,
               "isTrustBoundary": false,
               "reasonOutOfScope": "",
-              "hasOpenThreats": true,
+              "hasOpenThreats": false,
               "handlesCardPayment": false,
               "handlesGoodsOrServices": false,
               "isWebApplication": true,
@@ -473,13 +473,11 @@
                 "text": "sondage.txt"
               },
               "topLine": {
-                "stroke": "red",
-                "strokeWidth": 2.5,
+                "strokeWidth": 1.5,
                 "strokeDasharray": null
               },
               "bottomLine": {
-                "stroke": "red",
-                "strokeWidth": 2.5,
+                "strokeWidth": 1.5,
                 "strokeDasharray": null
               }
             },
@@ -576,7 +574,7 @@
               "outOfScope": false,
               "isTrustBoundary": false,
               "reasonOutOfScope": "",
-              "hasOpenThreats": true,
+              "hasOpenThreats": false,
               "isALog": false,
               "isEncrypted": false,
               "isSigned": false,
@@ -616,13 +614,11 @@
                 "text": "responses.json"
               },
               "topLine": {
-                "stroke": "red",
-                "strokeWidth": 2.5,
+                "strokeWidth": 1.5,
                 "strokeDasharray": null
               },
               "bottomLine": {
-                "stroke": "red",
-                "strokeWidth": 2.5,
+                "strokeWidth": 1.5,
                 "strokeDasharray": null
               }
             },
@@ -719,7 +715,7 @@
               "outOfScope": false,
               "isTrustBoundary": false,
               "reasonOutOfScope": "",
-              "hasOpenThreats": true,
+              "hasOpenThreats": false,
               "isALog": false,
               "isEncrypted": false,
               "isSigned": false,
@@ -767,13 +763,11 @@
                 "text": "participant-keys.json"
               },
               "topLine": {
-                "stroke": "red",
-                "strokeWidth": 2.5,
+                "strokeWidth": 1.5,
                 "strokeDasharray": null
               },
               "bottomLine": {
-                "stroke": "red",
-                "strokeWidth": 2.5,
+                "strokeWidth": 1.5,
                 "strokeDasharray": null
               }
             },
@@ -870,7 +864,7 @@
               "outOfScope": false,
               "isTrustBoundary": false,
               "reasonOutOfScope": "",
-              "hasOpenThreats": true,
+              "hasOpenThreats": false,
               "isALog": false,
               "isEncrypted": false,
               "isSigned": false,
@@ -908,8 +902,7 @@
             "shape": "flow",
             "attrs": {
               "line": {
-                "stroke": "red",
-                "strokeWidth": 2.5,
+                "stroke": "#333333",
                 "targetMarker": {
                   "name": "block"
                 },
@@ -930,7 +923,7 @@
               "outOfScope": false,
               "isTrustBoundary": false,
               "reasonOutOfScope": "",
-              "hasOpenThreats": true,
+              "hasOpenThreats": false,
               "isBidirectional": false,
               "isEncrypted": true,
               "isPublicNetwork": true,
@@ -963,9 +956,7 @@
               ],
               "trustBoundaryIds": []
             },
-            "labels": [
-              "HTTPS / JSON\nX-Participant-Key"
-            ],
+            "labels": ["HTTPS / JSON\nX-Participant-Key"],
             "id": "flow-participant-api",
             "source": {
               "x": 230,
@@ -975,16 +966,7 @@
               "x": 390,
               "y": 260
             },
-            "tools": {
-              "items": [
-                "boundary",
-                "button-remove",
-                "vertices",
-                "source-arrowhead",
-                "target-arrowhead"
-              ],
-              "name": null
-            }
+            "vertices": []
           },
           {
             "shape": "flow",
@@ -1036,9 +1018,7 @@
               ],
               "trustBoundaryIds": []
             },
-            "labels": [
-              "HTTPS / JSON\nX-API-Key"
-            ],
+            "labels": ["HTTPS / JSON\nX-API-Key"],
             "id": "flow-client-api",
             "source": {
               "x": 230,
@@ -1053,8 +1033,7 @@
             "shape": "flow",
             "attrs": {
               "line": {
-                "stroke": "red",
-                "strokeWidth": 2.5,
+                "stroke": "#333333",
                 "targetMarker": {
                   "name": "block"
                 },
@@ -1075,7 +1054,7 @@
               "outOfScope": false,
               "isTrustBoundary": false,
               "reasonOutOfScope": "",
-              "hasOpenThreats": true,
+              "hasOpenThreats": false,
               "isBidirectional": false,
               "isEncrypted": false,
               "isPublicNetwork": false,
@@ -1108,9 +1087,7 @@
               ],
               "trustBoundaryIds": []
             },
-            "labels": [
-              "Lecture"
-            ],
+            "labels": ["Lecture"],
             "id": "flow-api-survey",
             "source": {
               "x": 600,
@@ -1124,6 +1101,10 @@
               {
                 "x": 650,
                 "y": 180
+              },
+              {
+                "x": 670,
+                "y": 150
               }
             ]
           },
@@ -1131,8 +1112,7 @@
             "shape": "flow",
             "attrs": {
               "line": {
-                "stroke": "red",
-                "strokeWidth": 2.5,
+                "stroke": "#333333",
                 "targetMarker": {
                   "name": "block"
                 },
@@ -1153,7 +1133,7 @@
               "outOfScope": false,
               "isTrustBoundary": false,
               "reasonOutOfScope": "",
-              "hasOpenThreats": true,
+              "hasOpenThreats": false,
               "isBidirectional": false,
               "isEncrypted": false,
               "isPublicNetwork": false,
@@ -1170,9 +1150,7 @@
               ],
               "trustBoundaryIds": []
             },
-            "labels": [
-              "Écriture"
-            ],
+            "labels": ["Écriture"],
             "id": "flow-api-responses",
             "source": {
               "x": 600,
@@ -1187,8 +1165,7 @@
             "shape": "flow",
             "attrs": {
               "line": {
-                "stroke": "red",
-                "strokeWidth": 2.5,
+                "stroke": "#333333",
                 "targetMarker": {
                   "name": "block"
                 },
@@ -1209,7 +1186,7 @@
               "outOfScope": false,
               "isTrustBoundary": false,
               "reasonOutOfScope": "",
-              "hasOpenThreats": true,
+              "hasOpenThreats": false,
               "isBidirectional": true,
               "isEncrypted": false,
               "isPublicNetwork": false,
@@ -1226,9 +1203,7 @@
               ],
               "trustBoundaryIds": []
             },
-            "labels": [
-              "Lecture / écriture"
-            ],
+            "labels": ["Lecture / écriture"],
             "id": "flow-api-keys",
             "source": {
               "x": 600,
@@ -1237,7 +1212,17 @@
             "target": {
               "x": 700,
               "y": 415
-            }
+            },
+            "vertices": [
+              {
+                "x": 620,
+                "y": 350
+              },
+              {
+                "x": 660,
+                "y": 390
+              }
+            ]
           }
         ]
       }
