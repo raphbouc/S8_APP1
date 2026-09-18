@@ -2,7 +2,7 @@
   "version": "2.6.2",
   "summary": {
     "title": "GeneralSurvey",
-    "owner": "guea0902-bour0703",
+    "owner": "bour0703-guea0902-labg0902",
     "description": "Modèle STRIDE de l'API GeneralSurvey permettant la consultation de sondages et la soumission anonyme de réponses à l'aide de clés uniques.",
     "id": 0
   },
@@ -36,9 +36,8 @@
               "description": "",
               "isTrustBoundary": true,
               "hasOpenThreats": false,
-              "crossingFlows": [],
+              "crossingFlows": ["flow-api-keys"],
               "containedElements": [
-                "general-survey-api",
                 "survey-file",
                 "responses-file",
                 "participant-keys-file"
@@ -299,12 +298,12 @@
           },
           {
             "position": {
-              "x": 420,
-              "y": 230
+              "x": 370,
+              "y": 229.99999999999994
             },
             "size": {
-              "width": 210,
-              "height": 110
+              "width": 260,
+              "height": 140
             },
             "attrs": {
               "text": {
@@ -448,6 +447,10 @@
                   "mitigation": "L'API distingue l'authentification du client avec X-API-Key de l'authentification du participant avec X-Participant-Key."
                 }
               ]
+            },
+            "tools": {
+              "items": ["boundary", "button-remove"],
+              "name": null
             }
           },
           {
@@ -916,8 +919,8 @@
             "connector": "smooth",
             "data": {
               "type": "tm.Flow",
-              "name": "Participation",
-              "description": "Le participant envoie ses réponses à l'API avec une clé de participant unique.",
+              "name": "Consultation du sondage",
+              "description": "Le participant consulte les questions du sondage.",
               "outOfScope": false,
               "isTrustBoundary": false,
               "reasonOutOfScope": "",
@@ -932,9 +935,61 @@
                   "severity": "High",
                   "title": "Interception des réponses",
                   "type": "Information disclosure",
-                  "description": "Les réponses et la clé du participant transitent sur un réseau public et pourraient être interceptées.",
+                  "description": "Les questions du sondage transitent sur un réseau public et pourraient être interceptées.",
                   "mitigation": "Utiliser HTTPS afin de chiffrer les communications entre le participant et l'API."
+                }
+              ],
+              "trustBoundaryIds": []
+            },
+            "labels": ["Sondage"],
+            "id": "flow-api-participant-sondage",
+            "source": {
+              "x": 390,
+              "y": 245
+            },
+            "target": {
+              "x": 230,
+              "y": 175
+            },
+            "vertices": [
+              {
+                "x": 320,
+                "y": 175
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "black",
+                "strokeWidth": 2.5,
+                "targetMarker": {
+                  "name": "block"
                 },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Soumission des réponses",
+              "description": "Le participant envoie ses réponses à l'API avec une clé de participant unique.",
+              "outOfScope": false,
+              "isTrustBoundary": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isBidirectional": false,
+              "isEncrypted": true,
+              "isPublicNetwork": true,
+              "protocol": "HTTPS / JSON",
+              "threats": [
                 {
                   "status": "Mitigated",
                   "severity": "High",
@@ -954,32 +1009,89 @@
               ],
               "trustBoundaryIds": []
             },
-            "labels": ["HTTPS / JSON\nX-Participant-Key"],
+            "labels": ["Réponses"],
             "id": "flow-participant-api",
             "source": {
               "x": 230,
-              "y": 185
+              "y": 195
             },
             "target": {
               "x": 390,
-              "y": 260
+              "y": 270
             },
-            "tools": {
-              "items": [
-                "boundary",
-                "button-remove",
-                "vertices",
-                "source-arrowhead",
-                "target-arrowhead"
-              ],
-              "name": null
-            }
+            "vertices": [
+              {
+                "x": 300,
+                "y": 250
+              }
+            ]
           },
           {
             "shape": "flow",
             "attrs": {
               "line": {
-                "stroke": "#333333",
+                "stroke": "black",
+                "strokeWidth": 2.5,
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 11,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Consultation sondage (client)",
+              "description": "Le client API reçoit les questions du sondage depuis l'API.",
+              "outOfScope": false,
+              "isTrustBoundary": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": true,
+              "isPublicNetwork": true,
+              "protocol": "HTTPS / JSON",
+              "threats": [
+                {
+                  "status": "Mitigated",
+                  "severity": "High",
+                  "title": "Interception de la clé API",
+                  "type": "Information disclosure",
+                  "description": "La clé API pourrait être interceptée lorsqu'elle est transmise au serveur.",
+                  "mitigation": "Les requêtes API utilisent HTTPS afin de protéger la clé API en transit."
+                }
+              ],
+              "trustBoundaryIds": []
+            },
+            "labels": ["Sondage"],
+            "id": "flow-api-client-sondage",
+            "source": {
+              "x": 390,
+              "y": 310
+            },
+            "target": {
+              "x": 230,
+              "y": 365
+            },
+            "vertices": [
+              {
+                "x": 300,
+                "y": 310
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "black",
+                "strokeWidth": 2.5,
                 "targetMarker": {
                   "name": "block"
                 },
@@ -1009,14 +1121,6 @@
                 {
                   "status": "Mitigated",
                   "severity": "High",
-                  "title": "Interception de la clé API",
-                  "type": "Information disclosure",
-                  "description": "La clé API pourrait être interceptée lorsqu'elle est transmise au serveur.",
-                  "mitigation": "Les requêtes API utilisent HTTPS afin de protéger la clé API en transit."
-                },
-                {
-                  "status": "Mitigated",
-                  "severity": "High",
                   "title": "Usurpation d'une requête API",
                   "type": "Spoofing",
                   "description": "Un attaquant pourrait tenter de fabriquer une requête API en utilisant une clé invalide ou absente.",
@@ -1025,16 +1129,26 @@
               ],
               "trustBoundaryIds": []
             },
-            "labels": ["HTTPS / JSON\nX-API-Key"],
+            "labels": ["Réponses"],
             "id": "flow-client-api",
             "source": {
               "x": 230,
-              "y": 375
+              "y": 385
             },
             "target": {
               "x": 390,
-              "y": 300
-            }
+              "y": 340
+            },
+            "vertices": [
+              {
+                "x": 320,
+                "y": 385
+              },
+              {
+                "x": 360,
+                "y": 350
+              }
+            ]
           },
           {
             "shape": "flow",
@@ -1073,7 +1187,7 @@
                   "severity": "Medium",
                   "title": "Modification du contenu du sondage",
                   "type": "Tampering",
-                  "description": "Un attaquant ayant accès au système de fichiers pourrait modifier sondage.txt avant sa lecture par l'API. Les questions ou les choix présentés aux participants pourraient alors être altérés.",
+                  "description": "Un attaquant ayant accès au système de fichiers pourrait modifier sondage.txt avant sa lecture par l'API.",
                   "mitigation": "Limiter les permissions d'écriture sur sondage.txt au compte administrateur nécessaire. En production, utiliser un mécanisme permettant de vérifier l'intégrité du fichier."
                 },
                 {
@@ -1081,7 +1195,7 @@
                   "severity": "Low",
                   "title": "Divulgation du contenu du sondage",
                   "type": "Information disclosure",
-                  "description": "Une personne ayant un accès non autorisé au système de fichiers pourrait lire directement le contenu de sondage.txt et consulter les questions avant leur publication.",
+                  "description": "Une personne ayant un accès non autorisé au système de fichiers pourrait lire directement le contenu de sondage.txt.",
                   "mitigation": "Restreindre les permissions de lecture du fichier au compte utilisé par l'application et aux administrateurs autorisés."
                 },
                 {
@@ -1095,15 +1209,15 @@
               ],
               "trustBoundaryIds": []
             },
-            "labels": ["Lecture"],
+            "labels": ["Sondage"],
             "id": "flow-api-survey",
             "source": {
-              "x": 600,
-              "y": 250
-            },
-            "target": {
               "x": 700,
               "y": 115
+            },
+            "target": {
+              "x": 600,
+              "y": 250
             },
             "vertices": [
               {
@@ -1155,7 +1269,7 @@
               ],
               "trustBoundaryIds": []
             },
-            "labels": ["Écriture"],
+            "labels": ["Réponses"],
             "id": "flow-api-responses",
             "source": {
               "x": 600,
@@ -1176,7 +1290,7 @@
                   "name": "block"
                 },
                 "sourceMarker": {
-                  "name": "block"
+                  "name": ""
                 },
                 "strokeDasharray": null
               }
@@ -1187,13 +1301,13 @@
             "connector": "smooth",
             "data": {
               "type": "tm.Flow",
-              "name": "Validation des clés",
-              "description": "L'API vérifie et consomme les clés de participants.",
+              "name": "Écriture état clés",
+              "description": "L'API met à jour l'état des clés (used: true) après consommation.",
               "outOfScope": false,
               "isTrustBoundary": false,
               "reasonOutOfScope": "",
               "hasOpenThreats": true,
-              "isBidirectional": true,
+              "isBidirectional": false,
               "isEncrypted": false,
               "isPublicNetwork": false,
               "protocol": "File I/O",
@@ -1201,24 +1315,90 @@
                 {
                   "status": "Open",
                   "severity": "Medium",
-                  "title": "Condition de concurrence lors de la consommation",
+                  "title": "Modification de l'état des clés",
                   "type": "Tampering",
-                  "description": "Deux requêtes simultanées pourraient théoriquement tenter de valider et consommer la même clé avant que son état soit sauvegardé.",
-                  "mitigation": "Utiliser une opération atomique ou un mécanisme de verrouillage lors de la validation et de la consommation d'une clé."
+                  "description": "Une modification non autorisée du fichier pourrait remettre une clé utilisée à l'état inutilisé.",
+                  "mitigation": "Restreindre les permissions du fichier et utiliser un stockage avec contrôle d'intégrité en production."
                 }
               ],
-              "trustBoundaryIds": []
+              "trustBoundaryIds": ["10a60d61-5faf-456c-8d5f-cefb67153d3a"]
             },
-            "labels": ["Lecture / écriture"],
+            "labels": ["État de la clé"],
             "id": "flow-api-keys",
             "source": {
               "x": 600,
               "y": 320
             },
             "target": {
+              "cell": "participant-keys-file",
+              "port": "4b0be234-82b6-4239-a07e-aae9b8db66f2"
+            },
+            "vertices": [
+              {
+                "x": 660,
+                "y": 340
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "black",
+                "strokeWidth": 2.5,
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 14,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Lecture clés",
+              "description": "L'API lit l'état des clés de participants depuis le fichier.",
+              "outOfScope": false,
+              "isTrustBoundary": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "File I/O",
+              "threats": [
+                {
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "title": "Condition de concurrence lors de la consommation (TOCTOU)",
+                  "type": "Tampering",
+                  "description": "Deux requêtes simultanées pourraient théoriquement tenter de valider et consommer la même clé avant que son état soit sauvegardé.",
+                  "mitigation": "Mitigé par un ConcurrentDictionary<string, SemaphoreSlim> dans ParticipantKeyService. Un verrou par clé garantit qu'une seule requête à la fois peut valider et marquer la clé comme utilisée (used: true)."
+                }
+              ],
+              "trustBoundaryIds": []
+            },
+            "labels": ["Clé"],
+            "id": "flow-api-keys-read",
+            "source": {
               "x": 700,
               "y": 415
-            }
+            },
+            "target": {
+              "x": 590,
+              "y": 340
+            },
+            "vertices": [
+              {
+                "x": 630,
+                "y": 390
+              }
+            ]
           }
         ]
       }

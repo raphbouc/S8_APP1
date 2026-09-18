@@ -1,0 +1,470 @@
+{
+  "info": {
+    "name": "GeneralSurvey API",
+    "_postman_id": "general-survey-api",
+    "description": "Collection Postman pour tester l'API GeneralSurvey.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://localhost:7280"
+    },
+    {
+      "key": "apiKey",
+      "value": "c3RyaW5nY2hhbWJlcmV2ZXJ5dGhpbmdzaW5ncHJvZHVjdGlvbmZpZXJjZWNvbnRhaW4="
+    },
+    {
+      "key": "participantKey",
+      "value": "8F4K92LM"
+    }
+  ],
+  "item": [
+    {
+      "name": "Surveys",
+      "item": [
+        {
+          "name": "Get all surveys - Without API Key",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status is 401 Unauthorized\", function () {",
+                  "    pm.response.to.have.status(401);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/surveys",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "surveys"]
+            }
+          }
+        },
+        {
+          "name": "Get all surveys - With API Key",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status is 200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response is an array\", function () {",
+                  "    pm.expect(pm.response.json()).to.be.an('array');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{apiKey}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/surveys",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "surveys"]
+            }
+          }
+        },
+        {
+          "name": "Get survey by ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status is 200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Survey ID is 1\", function () {",
+                  "    pm.expect(pm.response.json().id).to.eql(1);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{apiKey}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/surveys/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "surveys", "1"]
+            }
+          }
+        },
+        {
+          "name": "Get unknown survey",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status is 404 Not Found\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{apiKey}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/surveys/999",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "surveys", "999"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Responses",
+      "item": [
+        {
+          "name": "Submit response - Valid",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status is 201 Created\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{apiKey}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Participant-Key",
+                "value": "{{participantKey}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"surveyId\": 1,\n  \"answers\": [\n    {\n      \"questionId\": 1,\n      \"answerValue\": \"a\"\n    },\n    {\n      \"questionId\": 2,\n      \"answerValue\": \"c\"\n    },\n    {\n      \"questionId\": 3,\n      \"answerValue\": \"b\"\n    },\n    {\n      \"questionId\": 4,\n      \"answerValue\": \"a\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/surveys/1/responses",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "surveys", "1", "responses"]
+            }
+          }
+        },
+        {
+          "name": "Submit response - With participant hash key",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status is 401 Unauthorized\", function () {",
+                  "    pm.response.to.have.status(401);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{apiKey}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Participant-Key",
+                "value": "57f078027366e3702cf2594e8942883615f5da6b6e3a57a759e62110fd66eb80",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"surveyId\": 1,\n  \"answers\": [\n    {\n      \"questionId\": 1,\n      \"answerValue\": \"a\"\n    },\n    {\n      \"questionId\": 2,\n      \"answerValue\": \"c\"\n    },\n    {\n      \"questionId\": 3,\n      \"answerValue\": \"b\"\n    },\n    {\n      \"questionId\": 4,\n      \"answerValue\": \"a\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/surveys/1/responses",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "surveys", "1", "responses"]
+            }
+          }
+        },
+        {
+          "name": "Submit response - Without Participant Key",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status is 401 Unauthorized\", function () {",
+                  "    pm.response.to.have.status(401);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{apiKey}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"surveyId\": 1,\n  \"answers\": [\n    {\n      \"questionId\": 1,\n      \"answerValue\": \"a\"\n    },\n    {\n      \"questionId\": 2,\n      \"answerValue\": \"c\"\n    },\n    {\n      \"questionId\": 3,\n      \"answerValue\": \"b\"\n    },\n    {\n      \"questionId\": 4,\n      \"answerValue\": \"a\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/surveys/1/responses",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "surveys", "1", "responses"]
+            }
+          }
+        },
+        {
+          "name": "Submit response - Invalid Participant Key",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status is 401 Unauthorized\", function () {",
+                  "    pm.response.to.have.status(401);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{apiKey}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Participant-Key",
+                "value": "INVALID-KEY",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"surveyId\": 1,\n  \"answers\": [\n    {\n      \"questionId\": 1,\n      \"answerValue\": \"a\"\n    },\n    {\n      \"questionId\": 2,\n      \"answerValue\": \"c\"\n    },\n    {\n      \"questionId\": 3,\n      \"answerValue\": \"b\"\n    },\n    {\n      \"questionId\": 4,\n      \"answerValue\": \"a\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/surveys/1/responses",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "surveys", "1", "responses"]
+            }
+          }
+        },
+        {
+          "name": "Submit response - Invalid Answer",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status is 400 Bad Request\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{apiKey}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Participant-Key",
+                "value": "3D7P51XZ",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"surveyId\": 1,\n  \"answers\": [\n    {\n      \"questionId\": 1,\n      \"answerValue\": \"INVALID\"\n    },\n    {\n      \"questionId\": 2,\n      \"answerValue\": \"c\"\n    },\n    {\n      \"questionId\": 3,\n      \"answerValue\": \"b\"\n    },\n    {\n      \"questionId\": 4,\n      \"answerValue\": \"a\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/surveys/1/responses",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "surveys", "1", "responses"]
+            }
+          }
+        },
+        {
+          "name": "Submit response - Already Used Participant Key",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status is 401 Unauthorized\", function () {",
+                  "    pm.response.to.have.status(401);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{apiKey}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Participant-Key",
+                "value": "{{participantKey}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"surveyId\": 1,\n  \"answers\": [\n    {\n      \"questionId\": 1,\n      \"answerValue\": \"a\"\n    },\n    {\n      \"questionId\": 2,\n      \"answerValue\": \"c\"\n    },\n    {\n      \"questionId\": 3,\n      \"answerValue\": \"b\"\n    },\n    {\n      \"questionId\": 4,\n      \"answerValue\": \"a\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/surveys/1/responses",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "surveys", "1", "responses"]
+            }
+          }
+        },
+        {
+          "name": "Submit response - Dumb Fuzzing",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status is 400 Bad Request\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{apiKey}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Participant-Key",
+                "value": "7A2M91PQ",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"bonjour\": \"Guy Lépine\",\n  \"ceci\": \"n'est pas une réponse valide\",\n  \"randomNumber\": 123456,\n  \"randomArray\": [\"hello\", true, null]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/surveys/1/responses",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "surveys", "1", "responses"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
