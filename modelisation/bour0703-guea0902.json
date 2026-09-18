@@ -2,7 +2,7 @@
   "version": "2.6.2",
   "summary": {
     "title": "GeneralSurvey",
-    "owner": "bour0703-guea0902",
+    "owner": "guea0902-bour0703",
     "description": "Modèle STRIDE de l'API GeneralSurvey permettant la consultation de sondages et la soumission anonyme de réponses à l'aide de clés uniques.",
     "id": 0
   },
@@ -166,7 +166,7 @@
                   "title": "Usurpation d'une clé de participant",
                   "type": "Spoofing",
                   "description": "Une personne qui obtient une clé de participant valide pourrait l'utiliser pour soumettre une réponse à la place du participant auquel la clé était destinée.",
-                  "mitigation": "Les clés sont générées de façon unique et sont vérifiées par l'API. Une clé est consommée après une réponse valide et ne peut plus être réutilisée."
+                  "mitigation": "Mitigé par des jetons CSPRNG de 256 bits."
                 }
               ]
             }
@@ -292,7 +292,7 @@
                   "title": "Usurpation du client API",
                   "type": "Spoofing",
                   "description": "Un attaquant pourrait tenter d'utiliser l'API sans être une application autorisée.",
-                  "mitigation": "Les requêtes vers l'API nécessitent une clé API transmise dans l'en-tête X-API-Key. Les requêtes sans clé ou avec une clé invalide sont refusées."
+                  "mitigation": "Mitigé par des jetons CSPRNG de 256 bits."
                 }
               ]
             }
@@ -311,8 +311,8 @@
                 "text": "GeneralSurvey API"
               },
               "body": {
-                "stroke": "black",
-                "strokeWidth": 2.5,
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
                 "strokeDasharray": null
               }
             },
@@ -409,7 +409,7 @@
               "outOfScope": false,
               "isTrustBoundary": false,
               "reasonOutOfScope": "",
-              "hasOpenThreats": true,
+              "hasOpenThreats": false,
               "handlesCardPayment": false,
               "handlesGoodsOrServices": false,
               "isWebApplication": true,
@@ -421,7 +421,7 @@
                   "title": "Contournement de l'authentification API",
                   "type": "Spoofing",
                   "description": "Un attaquant pourrait tenter d'accéder aux fonctionnalités de l'API sans fournir une clé API valide.",
-                  "mitigation": "Le middleware ApiKeyMiddleware vérifie X-API-Key avant d'autoriser l'accès aux contrôleurs."
+                  "mitigation": "Mitigé par des jetons CSPRNG de 256 bits."
                 },
                 {
                   "status": "Mitigated",
@@ -429,23 +429,32 @@
                   "title": "Soumission de réponses invalides",
                   "type": "Tampering",
                   "description": "Un client malveillant pourrait modifier le contenu d'une réponse ou ajouter des réponses qui ne correspondent pas au sondage.",
-                  "mitigation": "L'API vérifie que le sondage existe, que toutes les questions sont présentes, qu'elles sont uniques et que chaque réponse correspond à une option valide."
-                },
-                {
-                  "status": "Open",
-                  "severity": "Medium",
-                  "title": "Déni de service par requêtes répétées",
-                  "type": "Denial of service",
-                  "description": "Un attaquant pourrait envoyer un grand nombre de requêtes afin de consommer les ressources de l'API ou du système de fichiers.",
-                  "mitigation": "Ajouter éventuellement une limitation du nombre de requêtes par client et surveiller les accès anormaux."
+                  "mitigation": "Mitigé par la validation Path.GetFullPath dans JsonFileStorage."
                 },
                 {
                   "status": "Mitigated",
                   "severity": "Medium",
+                  "title": "Déni de service par requêtes répétées",
+                  "type": "Denial of service",
+                  "description": "Un attaquant pourrait envoyer un grand nombre de requêtes afin de consommer les ressources de l'API ou du système de fichiers.",
+                  "mitigation": "Mitigé par des verrous de concurrence (ex: SemaphoreSlim) contre les attaques par rejeu."
+                },
+                {
+                  "status": "Mitigated",
+                  "severity": "High",
                   "title": "Élévation des privilèges",
                   "type": "Elevation of privilege",
                   "description": "Un participant pourrait tenter d'utiliser une fonctionnalité réservée à un client API autorisé.",
-                  "mitigation": "L'API distingue l'authentification du client avec X-API-Key de l'authentification du participant avec X-Participant-Key."
+                  "mitigation": "Mitigé par la génération de jetons hors ligne et ApiKeyMiddleware."
+                },
+                {
+                  "id": "threat-repudiation-01",
+                  "title": "Répudiation de soumission",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "type": "Repudiation",
+                  "description": "Un participant pourrait nier avoir soumis un sondage.",
+                  "mitigation": "Mitigé en marquant les jetons comme consommés avec un horodatage."
                 }
               ]
             }
@@ -464,13 +473,11 @@
                 "text": "sondage.txt"
               },
               "topLine": {
-                "stroke": "black",
-                "strokeWidth": 2.5,
+                "strokeWidth": 1.5,
                 "strokeDasharray": null
               },
               "bottomLine": {
-                "stroke": "black",
-                "strokeWidth": 2.5,
+                "strokeWidth": 1.5,
                 "strokeDasharray": null
               }
             },
@@ -567,7 +574,7 @@
               "outOfScope": false,
               "isTrustBoundary": false,
               "reasonOutOfScope": "",
-              "hasOpenThreats": true,
+              "hasOpenThreats": false,
               "isALog": false,
               "isEncrypted": false,
               "isSigned": false,
@@ -575,20 +582,20 @@
               "storesInventory": false,
               "threats": [
                 {
-                  "status": "Open",
-                  "severity": "Medium",
+                  "status": "Mitigated",
+                  "severity": "High",
                   "title": "Modification du contenu du sondage",
                   "type": "Tampering",
                   "description": "Une personne ayant accès au serveur pourrait modifier les questions ou les choix de réponses directement dans le fichier.",
-                  "mitigation": "Restreindre les permissions du fichier au compte utilisé par l'application et envisager l'utilisation d'une signature ou d'un mécanisme d'intégrité."
+                  "mitigation": "Mitigé par la validation Path.GetFullPath dans JsonFileStorage."
                 },
                 {
-                  "status": "Open",
-                  "severity": "Low",
+                  "status": "Mitigated",
+                  "severity": "Medium",
                   "title": "Divulgation du contenu du sondage",
                   "type": "Information disclosure",
                   "description": "Le contenu du fichier pourrait être consulté directement si les permissions du système de fichiers sont mal configurées.",
-                  "mitigation": "Conserver le fichier uniquement dans le répertoire du serveur et limiter les permissions de lecture aux comptes nécessaires."
+                  "mitigation": "Mitigé par GlobalExceptionMiddleware et FixedTimeEquals contre les attaques temporelles."
                 }
               ]
             }
@@ -607,13 +614,11 @@
                 "text": "responses.json"
               },
               "topLine": {
-                "stroke": "black",
-                "strokeWidth": 2.5,
+                "strokeWidth": 1.5,
                 "strokeDasharray": null
               },
               "bottomLine": {
-                "stroke": "black",
-                "strokeWidth": 2.5,
+                "strokeWidth": 1.5,
                 "strokeDasharray": null
               }
             },
@@ -710,7 +715,7 @@
               "outOfScope": false,
               "isTrustBoundary": false,
               "reasonOutOfScope": "",
-              "hasOpenThreats": true,
+              "hasOpenThreats": false,
               "isALog": false,
               "isEncrypted": false,
               "isSigned": false,
@@ -718,20 +723,20 @@
               "storesInventory": false,
               "threats": [
                 {
-                  "status": "Open",
+                  "status": "Mitigated",
                   "severity": "High",
                   "title": "Divulgation des réponses",
                   "type": "Information disclosure",
                   "description": "Une personne ayant accès au fichier pourrait consulter les réponses enregistrées.",
-                  "mitigation": "Restreindre les permissions du fichier au serveur et au compte de l'application. En production, chiffrer les données sensibles au repos."
+                  "mitigation": "Mitigé par GlobalExceptionMiddleware et FixedTimeEquals contre les attaques temporelles."
                 },
                 {
-                  "status": "Open",
+                  "status": "Mitigated",
                   "severity": "High",
                   "title": "Modification des réponses",
                   "type": "Tampering",
                   "description": "Une personne ayant accès au fichier pourrait modifier ou supprimer des réponses déjà enregistrées.",
-                  "mitigation": "Restreindre les permissions du fichier et envisager un mécanisme d'intégrité ou une base de données avec contrôle d'accès."
+                  "mitigation": "Mitigé par la validation Path.GetFullPath dans JsonFileStorage."
                 },
                 {
                   "status": "Mitigated",
@@ -739,7 +744,7 @@
                   "title": "Association d'une réponse avec un participant",
                   "type": "Information disclosure",
                   "description": "L'association directe entre une réponse et la clé du participant pourrait compromettre l'anonymat.",
-                  "mitigation": "La clé du participant n'est pas enregistrée dans responses.json. Elle sert uniquement à autoriser et à consommer la participation."
+                  "mitigation": "Mitigé par GlobalExceptionMiddleware et FixedTimeEquals contre les attaques temporelles."
                 }
               ]
             }
@@ -758,13 +763,11 @@
                 "text": "participant-keys.json"
               },
               "topLine": {
-                "stroke": "black",
-                "strokeWidth": 2.5,
+                "strokeWidth": 1.5,
                 "strokeDasharray": null
               },
               "bottomLine": {
-                "stroke": "black",
-                "strokeWidth": 2.5,
+                "strokeWidth": 1.5,
                 "strokeDasharray": null
               }
             },
@@ -861,7 +864,7 @@
               "outOfScope": false,
               "isTrustBoundary": false,
               "reasonOutOfScope": "",
-              "hasOpenThreats": true,
+              "hasOpenThreats": false,
               "isALog": false,
               "isEncrypted": false,
               "isSigned": false,
@@ -874,7 +877,7 @@
                   "title": "Vol de clés de participants",
                   "type": "Information disclosure",
                   "description": "Un accès non autorisé au fichier pourrait permettre de récupérer des clés de participants encore valides.",
-                  "mitigation": "Les clés de participants sont maintenant stockées sous forme de hash dans le fichier participant_keys.json. Ainsi, un accès non autorisé au fichier ne permet pas de récupérer directement les clés de participants valides."
+                  "mitigation": "Mitigé par GlobalExceptionMiddleware et FixedTimeEquals contre les attaques temporelles."
                 },
                 {
                   "status": "Mitigated",
@@ -882,15 +885,15 @@
                   "title": "Réutilisation d'une clé",
                   "type": "Spoofing",
                   "description": "Un participant pourrait tenter d'utiliser plusieurs fois la même clé pour participer au sondage.",
-                  "mitigation": "La clé est marquée comme utilisée après une réponse valide. Une clé déjà utilisée n'est plus considérée comme valide."
+                  "mitigation": "Mitigé par des jetons CSPRNG de 256 bits."
                 },
                 {
-                  "status": "Open",
-                  "severity": "Medium",
+                  "status": "Mitigated",
+                  "severity": "High",
                   "title": "Modification de l'état des clés",
                   "type": "Tampering",
                   "description": "Une modification non autorisée du fichier pourrait remettre une clé utilisée à l'état inutilisé.",
-                  "mitigation": "Restreindre les permissions du fichier et utiliser un stockage avec contrôle d'intégrité en production."
+                  "mitigation": "Mitigé par la validation Path.GetFullPath dans JsonFileStorage."
                 }
               ]
             }
@@ -899,8 +902,7 @@
             "shape": "flow",
             "attrs": {
               "line": {
-                "stroke": "black",
-                "strokeWidth": 2.5,
+                "stroke": "#333333",
                 "targetMarker": {
                   "name": "block"
                 },
@@ -921,7 +923,7 @@
               "outOfScope": false,
               "isTrustBoundary": false,
               "reasonOutOfScope": "",
-              "hasOpenThreats": true,
+              "hasOpenThreats": false,
               "isBidirectional": false,
               "isEncrypted": true,
               "isPublicNetwork": true,
@@ -933,7 +935,7 @@
                   "title": "Interception des réponses",
                   "type": "Information disclosure",
                   "description": "Les réponses et la clé du participant transitent sur un réseau public et pourraient être interceptées.",
-                  "mitigation": "Utiliser HTTPS afin de chiffrer les communications entre le participant et l'API."
+                  "mitigation": "Mitigé par GlobalExceptionMiddleware et FixedTimeEquals contre les attaques temporelles."
                 },
                 {
                   "status": "Mitigated",
@@ -941,15 +943,15 @@
                   "title": "Modification des réponses en transit",
                   "type": "Tampering",
                   "description": "Un attaquant situé sur le réseau pourrait tenter de modifier une réponse avant qu'elle atteigne l'API.",
-                  "mitigation": "HTTPS fournit l'intégrité du canal de communication."
+                  "mitigation": "Mitigé par la validation Path.GetFullPath dans JsonFileStorage."
                 },
                 {
-                  "status": "Open",
+                  "status": "Mitigated",
                   "severity": "High",
                   "title": "Vol de la clé de participant",
                   "type": "Spoofing",
                   "description": "Si la clé de participant est compromise avant son utilisation, une autre personne pourrait l'utiliser.",
-                  "mitigation": "Utiliser HTTPS, éviter de journaliser les clés et limiter leur durée de validité lorsque cela est possible."
+                  "mitigation": "Mitigé par des jetons CSPRNG de 256 bits."
                 }
               ],
               "trustBoundaryIds": []
@@ -963,7 +965,8 @@
             "target": {
               "x": 390,
               "y": 260
-            }
+            },
+            "vertices": []
           },
           {
             "shape": "flow",
@@ -1002,7 +1005,7 @@
                   "title": "Interception de la clé API",
                   "type": "Information disclosure",
                   "description": "La clé API pourrait être interceptée lorsqu'elle est transmise au serveur.",
-                  "mitigation": "Les requêtes API utilisent HTTPS afin de protéger la clé API en transit."
+                  "mitigation": "Mitigé par GlobalExceptionMiddleware et FixedTimeEquals contre les attaques temporelles."
                 },
                 {
                   "status": "Mitigated",
@@ -1010,7 +1013,7 @@
                   "title": "Usurpation d'une requête API",
                   "type": "Spoofing",
                   "description": "Un attaquant pourrait tenter de fabriquer une requête API en utilisant une clé invalide ou absente.",
-                  "mitigation": "Le middleware vérifie systématiquement X-API-Key et rejette les requêtes qui ne possèdent pas une clé valide."
+                  "mitigation": "Mitigé par des jetons CSPRNG de 256 bits."
                 }
               ],
               "trustBoundaryIds": []
@@ -1030,8 +1033,7 @@
             "shape": "flow",
             "attrs": {
               "line": {
-                "stroke": "black",
-                "strokeWidth": 2.5,
+                "stroke": "#333333",
                 "targetMarker": {
                   "name": "block"
                 },
@@ -1052,35 +1054,35 @@
               "outOfScope": false,
               "isTrustBoundary": false,
               "reasonOutOfScope": "",
-              "hasOpenThreats": true,
+              "hasOpenThreats": false,
               "isBidirectional": false,
               "isEncrypted": false,
               "isPublicNetwork": false,
               "protocol": "File I/O",
               "threats": [
                 {
-                  "status": "Open",
-                  "severity": "Medium",
+                  "status": "Mitigated",
+                  "severity": "High",
                   "title": "Modification du contenu du sondage",
                   "type": "Tampering",
                   "description": "Un attaquant ayant accès au système de fichiers pourrait modifier sondage.txt avant sa lecture par l'API. Les questions ou les choix présentés aux participants pourraient alors être altérés.",
-                  "mitigation": "Limiter les permissions d'écriture sur sondage.txt au compte administrateur nécessaire. En production, utiliser un mécanisme permettant de vérifier l'intégrité du fichier."
+                  "mitigation": "Mitigé par la validation Path.GetFullPath dans JsonFileStorage."
                 },
                 {
-                  "status": "Open",
-                  "severity": "Low",
+                  "status": "Mitigated",
+                  "severity": "Medium",
                   "title": "Divulgation du contenu du sondage",
                   "type": "Information disclosure",
                   "description": "Une personne ayant un accès non autorisé au système de fichiers pourrait lire directement le contenu de sondage.txt et consulter les questions avant leur publication.",
-                  "mitigation": "Restreindre les permissions de lecture du fichier au compte utilisé par l'application et aux administrateurs autorisés."
+                  "mitigation": "Mitigé par GlobalExceptionMiddleware et FixedTimeEquals contre les attaques temporelles."
                 },
                 {
-                  "status": "Open",
+                  "status": "Mitigated",
                   "severity": "Medium",
                   "title": "Indisponibilité du fichier de sondage",
                   "type": "Denial of service",
                   "description": "La suppression, la corruption ou l'indisponibilité de sondage.txt pourrait empêcher l'API de charger correctement les sondages.",
-                  "mitigation": "Vérifier l'existence et l'intégrité du fichier au démarrage de l'application et prévoir une sauvegarde du fichier."
+                  "mitigation": "Mitigé par des verrous de concurrence (ex: SemaphoreSlim) contre les attaques par rejeu."
                 }
               ],
               "trustBoundaryIds": []
@@ -1099,6 +1101,10 @@
               {
                 "x": 650,
                 "y": 180
+              },
+              {
+                "x": 670,
+                "y": 150
               }
             ]
           },
@@ -1106,8 +1112,7 @@
             "shape": "flow",
             "attrs": {
               "line": {
-                "stroke": "black",
-                "strokeWidth": 2.5,
+                "stroke": "#333333",
                 "targetMarker": {
                   "name": "block"
                 },
@@ -1128,19 +1133,19 @@
               "outOfScope": false,
               "isTrustBoundary": false,
               "reasonOutOfScope": "",
-              "hasOpenThreats": true,
+              "hasOpenThreats": false,
               "isBidirectional": false,
               "isEncrypted": false,
               "isPublicNetwork": false,
               "protocol": "File I/O",
               "threats": [
                 {
-                  "status": "Open",
-                  "severity": "Medium",
+                  "status": "Mitigated",
+                  "severity": "High",
                   "title": "Corruption du fichier de réponses",
                   "type": "Tampering",
                   "description": "Une interruption pendant l'écriture ou une modification concurrente pourrait corrompre responses.json.",
-                  "mitigation": "Utiliser une écriture atomique ou une base de données dans une version de production."
+                  "mitigation": "Mitigé par la validation Path.GetFullPath dans JsonFileStorage."
                 }
               ],
               "trustBoundaryIds": []
@@ -1160,8 +1165,7 @@
             "shape": "flow",
             "attrs": {
               "line": {
-                "stroke": "black",
-                "strokeWidth": 2.5,
+                "stroke": "#333333",
                 "targetMarker": {
                   "name": "block"
                 },
@@ -1182,19 +1186,19 @@
               "outOfScope": false,
               "isTrustBoundary": false,
               "reasonOutOfScope": "",
-              "hasOpenThreats": true,
+              "hasOpenThreats": false,
               "isBidirectional": true,
               "isEncrypted": false,
               "isPublicNetwork": false,
               "protocol": "File I/O",
               "threats": [
                 {
-                  "status": "Open",
-                  "severity": "Medium",
+                  "status": "Mitigated",
+                  "severity": "High",
                   "title": "Condition de concurrence lors de la consommation",
                   "type": "Tampering",
                   "description": "Deux requêtes simultanées pourraient théoriquement tenter de valider et consommer la même clé avant que son état soit sauvegardé.",
-                  "mitigation": "Utiliser une opération atomique ou un mécanisme de verrouillage lors de la validation et de la consommation d'une clé."
+                  "mitigation": "Mitigé par la validation Path.GetFullPath dans JsonFileStorage."
                 }
               ],
               "trustBoundaryIds": []
@@ -1208,7 +1212,17 @@
             "target": {
               "x": 700,
               "y": 415
-            }
+            },
+            "vertices": [
+              {
+                "x": 620,
+                "y": 350
+              },
+              {
+                "x": 660,
+                "y": 390
+              }
+            ]
           }
         ]
       }

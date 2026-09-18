@@ -514,4 +514,35 @@ public class SurveyServiceTests
             }
         }
     }
+    [Fact]
+    public void Constructor_WithNullByteSurveyPath_ThrowsArgumentException()
+    {
+        var parser = new SurveyParser();
+        var maliciousPath = "sondage.txt\0../../etc/passwd";
+        var responsesFilePath = CreateResponsesFile();
+
+        Assert.Throws<ArgumentException>(
+            () => new SurveyService(parser, maliciousPath, responsesFilePath));
+    }
+
+    [Fact]
+    public void Constructor_WithNullByteResponsesPath_ThrowsArgumentException()
+    {
+        var parser = new SurveyParser();
+        var surveyFilePath = GetSurveyFilePath();
+        var maliciousPath = "responses.json\0../../etc/passwd";
+
+        Assert.Throws<ArgumentException>(
+            () => new SurveyService(parser, surveyFilePath, maliciousPath));
+    }
+
+    [Fact]
+    public void Constructor_WithStandaloneDoubleDotSurveyPath_ThrowsUnauthorized()
+    {
+        var parser = new SurveyParser();
+        var responsesFilePath = CreateResponsesFile();
+
+        Assert.Throws<UnauthorizedAccessException>(
+            () => new SurveyService(parser, "..", responsesFilePath));
+    }
 }

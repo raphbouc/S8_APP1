@@ -1,6 +1,7 @@
 <?xml version='1.0'?>
 <Obfuscator>
-    <Var name="OutPath" value="/Users/raphaelbouchard/Uni/S8/APP1/Prob/GeneralSurvey/GeneralSurvey.Api/bin/Release/net10.0/obfuscated" />
+    <Var name="InPath" value="./bin/Release/net10.0" />
+    <Var name="OutPath" value="./bin/Release/net10.0/obfuscated" />
 
     <Var name="KeepPublicApi" value="false" />
     <Var name="HidePrivateApi" value="true" />
@@ -15,5 +16,5 @@
     <Var name="OptimizeMethods" value="true" />
     <Var name="SuppressIldasm" value="true" />
 
-    <Module file="/Users/raphaelbouchard/Uni/S8/APP1/Prob/GeneralSurvey/GeneralSurvey.Api/bin/Release/net10.0/GeneralSurvey.Api.dll" />
+    <Module file="$(InPath)/GeneralSurvey.Api.dll" />
 </Obfuscator>

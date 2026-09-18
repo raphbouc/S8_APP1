@@ -200,7 +200,7 @@
           }
         },
         {
-          "name": "Submit response - With Participant HashKey",
+          "name": "Submit response - With participant hash key",
           "event": [
             {
               "listen": "test",
