@@ -57,7 +57,7 @@ public class SurveysController : ControllerBase
             return Unauthorized();
         }
 
-        if (id != response.SurveyId)
+        if (id != response.SurveyId || !_surveyService.IsValidResponse(response))
         {
             return BadRequest();
         }
@@ -67,10 +67,7 @@ public class SurveysController : ControllerBase
             return Unauthorized();
         }
 
-        if (!_surveyService.RespondToSurvey(response))
-        {
-            return BadRequest();
-        }
+        _surveyService.RespondToSurvey(response);
 
         return Created();
     }

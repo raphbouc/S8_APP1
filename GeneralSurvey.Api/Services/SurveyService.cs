@@ -73,7 +73,7 @@ public class SurveyService : ISurveyService
             .ToList();
     }
 
-    public bool RespondToSurvey(SurveyResponse surveyResponse)
+    public bool IsValidResponse(SurveyResponse surveyResponse)
     {
         var survey = GetSurvey(surveyResponse.SurveyId);
 
@@ -83,6 +83,16 @@ public class SurveyService : ISurveyService
         }
 
         if (!AreAnswersValid(survey, surveyResponse))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public bool RespondToSurvey(SurveyResponse surveyResponse)
+    {
+        if (!IsValidResponse(surveyResponse))
         {
             return false;
         }

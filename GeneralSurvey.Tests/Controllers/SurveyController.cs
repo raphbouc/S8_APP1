@@ -220,6 +220,11 @@ public class SurveysControllerTests
         {
             return RespondToSurveyResult;
         }
+
+        public bool IsValidResponse(SurveyResponse surveyResponse)
+        {
+            return RespondToSurveyResult;
+        }
     }
 
     private sealed class FakeParticipantKeyService
