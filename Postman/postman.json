@@ -200,6 +200,51 @@
           }
         },
         {
+          "name": "Submit response - With participant hash key",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status is 401 Unauthorized\", function () {",
+                  "    pm.response.to.have.status(401);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{apiKey}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Participant-Key",
+                "value": "57f078027366e3702cf2594e8942883615f5da6b6e3a57a759e62110fd66eb80",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"surveyId\": 1,\n  \"answers\": [\n    {\n      \"questionId\": 1,\n      \"answerValue\": \"a\"\n    },\n    {\n      \"questionId\": 2,\n      \"answerValue\": \"c\"\n    },\n    {\n      \"questionId\": 3,\n      \"answerValue\": \"b\"\n    },\n    {\n      \"questionId\": 4,\n      \"answerValue\": \"a\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/surveys/1/responses",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "surveys", "1", "responses"]
+            }
+          }
+        },
+        {
           "name": "Submit response - Without Participant Key",
           "event": [
             {

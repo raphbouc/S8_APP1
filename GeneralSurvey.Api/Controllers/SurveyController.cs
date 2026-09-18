@@ -20,12 +20,17 @@ public class SurveysController : ControllerBase
     }
 
     [HttpGet]
+    [ProducesResponseType(typeof(List<Survey>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public ActionResult<List<Survey>> GetSurveys()
     {
         return Ok(_surveyService.GetSurveys());
     }
 
     [HttpGet("{id:int}")]
+    [ProducesResponseType(typeof(Survey), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult<Survey> GetSurvey(int id)
     {
         var survey = _surveyService.GetSurvey(id);
@@ -39,6 +44,9 @@ public class SurveysController : ControllerBase
     }
 
     [HttpPost("{id:int}/responses")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult> RespondToSurvey(
         int id,
         [FromHeader(Name = "X-Participant-Key")] string? participantKey,
